@@ -13,6 +13,7 @@ def suite():
     suite.addTest (DeleteNewPoolTestCase('test_TC005'))
     suite.addTest (DeleteNewPoolTestCase('test_TC006'))
     suite.addTest (NewRBDTestCase('test_TC007'))
+    suite.addTest (NewRBDTestCase('test_TC008'))
     return suite
 
 if __name__ == '__main__':
