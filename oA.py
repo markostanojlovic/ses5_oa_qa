@@ -175,7 +175,7 @@ class openAtticTest(unittest.TestCase):
         WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.XPATH, "//td[contains(text(), "+newName+")]")))
         return newName
 
-    def iSCSI_create(self, poolName, rbdImgName):
+    def iSCSI_create(self, poolName, rbdImgName, auth="noauth"):
         '''
         Creating new iSCSI export
         '''
@@ -185,7 +185,11 @@ class openAtticTest(unittest.TestCase):
         self.driver.find_elements_by_xpath("//a[@class='tc_addPortalItem ng-binding']")[0].click()
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='images']/parent::span/following-sibling::span/button"))).click()
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//a[contains(text(), '"+poolName+": "+rbdImgName+"')]"))).click()
-        time.sleep(2) # submit is clickable all the time - only displays required fields message if conditions not met 
+        if auth == 'auth':
+            self.driver.find_element_by_xpath("//*[span='Authentication']").click()
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='user']"))).send_keys('qatest')
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='password']"))).send_keys('qatest')
+        time.sleep(2) # submit is clickable all the time - only displays required fields message if conditions not met
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//*[span='Submit']"))).click()
         WebDriverWait(self.driver, 100).until(EC.visibility_of_element_located((By.XPATH, "//td[contains(text(), '"+poolName+":"+rbdImgName+"')]")))
 
