@@ -175,6 +175,8 @@ class openAtticTest(unittest.TestCase):
         WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.XPATH, "//td[contains(text(), "+newName+")]")))
         return newName
 
+    # TODO maybe to move here functions porta, image and auth for iSCSI ?
+
     def iSCSI_create(self, poolName, rbdImgName, auth="noauth"):
         '''
         Creating new iSCSI export
@@ -186,12 +188,36 @@ class openAtticTest(unittest.TestCase):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='images']/parent::span/following-sibling::span/button"))).click()
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//a[contains(text(), '"+poolName+": "+rbdImgName+"')]"))).click()
         if auth == 'auth':
-            self.driver.find_element_by_xpath("//*[span='Authentication']").click()
+            WebDriverWait(self.driver, 100).until(EC.visibility_of_element_located((By.XPATH, "//*[span='Authentication']"))).click()
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='user']"))).send_keys('qatest')
             WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='password']"))).send_keys('qatest')
         time.sleep(2) # submit is clickable all the time - only displays required fields message if conditions not met
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//*[span='Submit']"))).click()
         WebDriverWait(self.driver, 100).until(EC.visibility_of_element_located((By.XPATH, "//td[contains(text(), '"+poolName+":"+rbdImgName+"')]")))
+        return poolName+":"+rbdImgName
+
+    def iSCSI_edit(self, target_name, what):
+        # what = portal, image, auth
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.LINK_TEXT, "iSCSI"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//td[text()='"+target_name+"']"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//*[span='Edit']"))).click()
+        time.sleep(2)
+        def portal():
+            WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//*[span='Add portal']"))).click()
+            WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//a[@class='tc_addPortalItem ng-binding']"))).click()
+        def image():
+            WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//*[span='Add image']"))).click()
+            #taking the first image from the drop down menu
+            WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//a[@class='tc_addImageItem ng-binding']"))).click()
+        def auth():
+            WebDriverWait(self.driver, 100).until(EC.visibility_of_element_located((By.XPATH, "//*[span='Authentication']"))).click()
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='user']"))).send_keys('qatest')
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='password']"))).send_keys('qatest')
+        opt = {'portal':portal, 'image':image, 'auth':auth}
+        opt[what]()
+        time.sleep(2)
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//*[span='Submit']"))).click()
+        WebDriverWait(self.driver, 100).until(EC.visibility_of_element_located((By.XPATH, "//td[contains(text(), 'qa_replicated')]")))
 
     def tearDown(self):
         self.driver.close()
