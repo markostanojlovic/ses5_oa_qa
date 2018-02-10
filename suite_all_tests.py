@@ -14,6 +14,11 @@ def suite():
     suite.addTest (DeleteNewPoolTestCase('test_TC006'))
     suite.addTest (NewRBDTestCase('test_TC007'))
     suite.addTest (NewRBDTestCase('test_TC008'))
+    suite.addTest (iSCSITestCase('test_TC009'))
+    suite.addTest (iSCSITestCase('test_TC010'))
+    suite.addTest (iSCSITestCase('test_TC011'))
+    suite.addTest (iSCSITestCase('test_TC012'))
+    suite.addTest (iSCSITestCase('test_TC013'))
     return suite
 
 if __name__ == '__main__':
