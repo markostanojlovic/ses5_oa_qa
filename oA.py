@@ -89,7 +89,7 @@ class openAtticTest(unittest.TestCase):
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.LINK_TEXT, "Add"))).click()
         poolName=WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.ID, "poolName")))
         poolName.clear()
-        name_hash_suffix=binascii.hexlify(os.urandom(8))
+        name_hash_suffix=binascii.hexlify(os.urandom(4))
         new_pool_name="qa_"+poolType+"_"+name_hash_suffix
         #new_pool_name="qa_"+poolType+"_"+name_hash_suffix.decode("utf-8") #python3
         poolName.send_keys(new_pool_name)
@@ -157,11 +157,11 @@ class openAtticTest(unittest.TestCase):
         Image size is in GB, and object size is in MB.
         '''
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.LINK_TEXT, "RBDs"))).click()
-        # time.sleep(1)
-        WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.LINK_TEXT, "Add"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//span[text()='Ceph RBDs']/ancestor::div//a[@class='btn btn-sm btn-primary tc_add_btn ng-scope']"))).click()
+        # WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.LINK_TEXT, "Add"))).click()
         name = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.ID, "name")))
         name.clear()
-        name_hash_suffix = binascii.hexlify(os.urandom(8))
+        name_hash_suffix = binascii.hexlify(os.urandom(4))
         newName = "qa_rbd_img_"+name_hash_suffix
         name.send_keys(newName)
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//select[@id='pool']/option[contains(@label, '"+poolName+"')]"))).click()
@@ -173,6 +173,21 @@ class openAtticTest(unittest.TestCase):
         #TODO features selection
         self.driver.find_element_by_xpath("//button[@type='submit']").click()
         WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.XPATH, "//td[contains(text(), "+newName+")]")))
+        return newName
+
+    def iSCSI_create(self, poolName, rbdImgName):
+        '''
+        Creating new iSCSI export
+        '''
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.LINK_TEXT, "iSCSI"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//span[text()='Ceph iSCSI']/ancestor::div//a[@class='btn btn-sm btn-primary tc_add_btn ng-scope']"))).click()
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//button[@class='btn btn-default btn-label pull-right tc_addPortalButton dropdown-toggle']" ))).click()
+        self.driver.find_elements_by_xpath("//a[@class='tc_addPortalItem ng-binding']")[0].click()
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='images']/parent::span/following-sibling::span/button"))).click()
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//a[contains(text(), '"+poolName+": "+rbdImgName+"')]"))).click()
+        time.sleep(2) # submit is clickable all the time - only displays required fields message if conditions not met 
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//*[span='Submit']"))).click()
+        WebDriverWait(self.driver, 100).until(EC.visibility_of_element_located((By.XPATH, "//td[contains(text(), '"+poolName+":"+rbdImgName+"')]")))
 
     def tearDown(self):
         self.driver.close()
