@@ -219,6 +219,29 @@ class openAtticTest(unittest.TestCase):
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//*[span='Submit']"))).click()
         WebDriverWait(self.driver, 100).until(EC.visibility_of_element_located((By.XPATH, "//td[contains(text(), 'qa_replicated')]")))
 
+    def createNFS(self, export, host, backend, v3, v4, RW, squash, transProtocol):
+        '''
+        export          = '/'
+        host            = hostname of the NFS-ganesha host
+        backend         = 'CephFS' | 'Object Gateway'
+        v3              = true | false
+        v4              = true | false
+        RW              = rw | ro | mdonly | mdonly_ro | none
+        quash           = root | all | none
+        transProtocol   = udp | tcp | all 
+        '''
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//a[@href='#/ceph/nfs']"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//span[text()='Ceph NFS']/ancestor::div//a[@class='btn btn-sm btn-primary tc_add_btn ng-scope']"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//select[@id='host']"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//select[@id='host']/option")))
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//select[@id='fsal']"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//select[@id='fsal']/option[text()='"+backend+"']"))).click()
+        WebDriverWait(self.driver, 30).until(EC.visibility_of_element_located((By.XPATH, "//input[@id='path']"))).send_keys(export)
+        time.sleep(5)
+
+    # def editNFS(self, export, host, backend, v3, v4, RW, squash, transProtocol):
+    # def deleteNFS(self, export, host, backend):
+
     def tearDown(self):
         self.driver.close()
         self.assertEqual([], self.verificationErrors)
