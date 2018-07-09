@@ -20,22 +20,22 @@ class openAtticTest(unittest.TestCase):
         self.accept_next_alert = True
 
     def wait_if_element_present(self, how, what):
-        for i in range(10):
+        for i in range(5):
             try:
                 if self.is_element_present(how, what): break
             except: pass
-            time.sleep(1)
+            time.sleep(i+1)
         else:
             self.fail("time out")
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
+        except NoSuchElementException: return False
         return True
 
     def is_alert_present(self):
         try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
+        except NoAlertPresentException: return False
         return True
 
     def close_alert_and_get_its_text(self):
