@@ -1,6 +1,9 @@
 # Selenium automation of openAttic ses5 qa tests 
 
+[**Test Case Definitions**](https://github.com/markostanojlovic/ses5_oa_qa/wiki/Test-Case-Definitions)
+
 Number of defined TCs (Test Cases): 4
+
 Duration of all tests suite: 60.65 s
 
 ## Requirements :
