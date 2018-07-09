@@ -85,6 +85,10 @@ class PoolsTab(BasePage):
         elif kwargs['pool_type'] == 'erasure':
             # ERASURE CODED POOL BRANCH
             self.click_button(PoolsTabLocators.NEW_POOL_TYPE_SELECTOR_EC)
+            self.click_button(PoolsTabLocators.NEW_POOL_EC_PROFILE_DDB)
+            self.click_button(PoolsTabLocators.NEW_POOL_EC_PROFILE_DEFAULT)
+            self.click_button(PoolsTabLocators.NEW_POOL_EC_CRUSH_RULESET_DDB)
+            self.click_button(PoolsTabLocators.NEW_POOL_EC_CRUSH_RULESET_EC) # TODO nece uvek da se pojavi, zavisi da li je kreiran dodatni EC profil
             self.click_button(PoolsTabLocators.NEW_POOL_EC_OWERWRITE_CB)
         else:
             print("Error: No valid pool_type specified.")
@@ -112,11 +116,45 @@ class PoolsTab(BasePage):
         self.click_button(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
         return self.new_pool_name
 
-    def pool_present(self, pool_name):
+    def pool_present(self, pool_name, **kwargs):
         self.click_button(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB)
         self.click_button(CommonTabLocators.TABLE_LENGTH_100)
         self.fetch_element(CommonTabLocators.REFRESH_BUTTON) # TODO find a better way to wait until table is loaded
+        # CHECK IF PG NUMBER IS AS EXPECTED TODO - maybe better to use bs to scrap table data? 
+        # CHECK IF APPLICATION LIST IS AS EXPECTED TODO 
         return self.is_element_present(By.LINK_TEXT, pool_name)
+
+    def edit_pool(self, **kwargs):
+        """
+        pool_name
+        pg_num = 16                 # placement group number - can be only increased 
+        app = 'rbd cephfs rgw'      # add it as space separated string 
+        """
+        self.click_button(MainMenuLocators.POOLS)
+        self.click_button((By.LINK_TEXT, kwargs['pool_name']))
+        self.clear_field(PoolsTabLocators.NEW_POOL_PG_NUM)
+        self.send_keys(PoolsTabLocators.NEW_POOL_PG_NUM, str(kwargs['pg_num']))
+        # DISCOVER REGISTRED APPS
+        apps= []
+        # appsPresentElems = self.driver.find_elements(PoolsTabLocators.APPS)
+        appsPresentElems = self.driver.find_elements_by_xpath("//input[@ng-model='appName']")
+        for i in appsPresentElems :
+            apps.append(i.get_attribute('value'))
+        appList = kwargs['app'].split()
+        # REMOVE APPS NOT NEEDED
+        for i in apps :
+            if i not in appList :
+                locator = (By.XPATH, "//input[@value='"+i+"']/parent::div//button")
+                self.click_button(locator)
+        # ADD APPS NOT PRESENT 
+        for i in appList :
+            if i not in apps :
+                locator = (By.CSS_SELECTOR, "option[value=\"string:"+i+"\"]")
+                self.click_button(locator)
+                self.click_button(PoolsTabLocators.NEW_POOL_ADD_APP_BUTTON)
+        self.click_button(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
+
+
 
 
 

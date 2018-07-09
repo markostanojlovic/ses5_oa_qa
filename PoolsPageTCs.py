@@ -28,6 +28,23 @@ class TestPoolsPage(unittest.TestCase):
         """
         new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=16, app='rbd')
         assert self.poolsTab.pool_present(new_pool_name)
+        
+    def test_oA002_new_pool_ec_pg_16_app_rbd_cephfs(self):
+        """
+        Create new pool: erasure coded, pgNum=16, app=rbd,cephfs
+        """
+        new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=16, app='rbd cephfs')
+        assert self.poolsTab.pool_present(new_pool_name)
+
+    def test_oA003_edit_pool_repl_3_pg_16_app_rbd(self):
+        """
+        Create new pool: replicated, repl=3, pgNum=16, app=rbd
+        Edit that pool: pgNum=32, app=rbd, rgw
+        """
+        new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=16, app='rbd')
+        assert self.poolsTab.pool_present(new_pool_name, pg_num=16, app='rbd')
+        self.poolsTab.edit_pool(pool_name=new_pool_name, pg_num=32, app='rbd rgw')
+        assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rbd rgw')
 
     def tearDown(self):
         self.driver.close()

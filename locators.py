@@ -43,7 +43,12 @@ class PoolsTabLocators:
     NEW_POOL_APP_RGW = (By.XPATH, "(//option[@label='rgw'])")
     NEW_POOL_APP_CEPHFS = (By.XPATH, "(//option[@label='cephfs'])")
     NEW_POOL_ADD_APP_BUTTON = (By.XPATH, "(//button[@class='btn btn-default tc-add-app'])")
-    NEW_POOL_EC_OWERWRITE_CB = (By.XPATH, "(//div[@class='checkbox checkbox-primary']//input)")
+    NEW_POOL_EC_OWERWRITE_CB = (By.XPATH, "//span[text()='EC Overwrite']") # (By.ID, "ec-overwrites") was not working ?
     NEW_POOL_SUBMIT_BUTTON = (By.CSS_SELECTOR, "button.btn.btn-sm.btn-primary.tc_submitButton")
-    
+    NEW_POOL_EC_PROFILE_DDB = (By.ID, "erasureProfiles")
+    NEW_POOL_EC_PROFILE_DEFAULT = (By.XPATH, "//option[@label='default']")
+    NEW_POOL_EC_CRUSH_RULESET_DDB = (By.ID, "crushSet")
+    NEW_POOL_EC_CRUSH_RULESET_EC = (By.XPATH, "//select[@id='crushSet']//option[@label='erasure-code']")
+    APPS = (By.XPATH, "//input[@ng-model='appName']")
+
 

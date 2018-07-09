@@ -1,5 +1,8 @@
 # Selenium automation of openAttic ses5 qa tests 
 
+Number of defined TCs (Test Cases): 4
+Duration of all tests suite: 60.65 s
+
 ## Requirements :
 
 - Chrome browser 
