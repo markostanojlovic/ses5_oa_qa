@@ -50,5 +50,9 @@ class PoolsTabLocators:
     NEW_POOL_EC_CRUSH_RULESET_DDB = (By.ID, "crushSet")
     NEW_POOL_EC_CRUSH_RULESET_EC = (By.XPATH, "//select[@id='crushSet']//option[@label='erasure-code']")
     APPS = (By.XPATH, "//input[@ng-model='appName']")
-
+    EDIT_DDB = (By.XPATH, "(//a[@class='btn btn-sm btn-primary dropdown-toggle tc_menudropdown'])")
+    DELETE_BUTTON = (By.XPATH, "(//li[@class='tc_deleteItem ng-scope'])")
+    DELETE_CONFIRMATION_TEXT = (By.XPATH, "//kbd[@class='ng-binding ng-scope']")
+    DELETE_CONFIRMATION_INPUT = (By.XPATH, "(//input[@name='enteredName'])")
+    DELETE_YES_BUTTON = (By.XPATH, "(//button[@class='btn btn-sm btn-primary tc_submitButton'])")
 

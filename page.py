@@ -154,6 +154,16 @@ class PoolsTab(BasePage):
                 self.click_button(PoolsTabLocators.NEW_POOL_ADD_APP_BUTTON)
         self.click_button(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
 
+    def delete_pool(self, pool_name):
+        self.click_button(MainMenuLocators.POOLS)
+        locator = (By.XPATH, "(//a[text()='" + pool_name + "']/parent::td/parent::tr//input[@type='checkbox'])")
+        self.click_button(locator)
+        self.click_button(PoolsTabLocators.EDIT_DDB)
+        self.click_button(PoolsTabLocators.DELETE_BUTTON)
+        confirmation_text = self.fetch_element(PoolsTabLocators.DELETE_CONFIRMATION_TEXT).text
+        self.send_keys(PoolsTabLocators.DELETE_CONFIRMATION_INPUT, confirmation_text)
+        self.click_button(PoolsTabLocators.DELETE_YES_BUTTON)
+
 
 
 

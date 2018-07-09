@@ -46,6 +46,36 @@ class TestPoolsPage(unittest.TestCase):
         self.poolsTab.edit_pool(pool_name=new_pool_name, pg_num=32, app='rbd rgw')
         assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rbd rgw')
 
+    def test_oA004_edit_pool_ec_pg_16_app_rgw(self):
+        """
+        Create new pool: erasure, pgNum=32, app=rgw
+        Edit that pool: pgNum=64, app=rbd, rgw, cephfs
+        """
+        new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=32, app='rgw')
+        assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rgw')
+        self.poolsTab.edit_pool(pool_name=new_pool_name, pg_num=64, app='rbd rgw cephfs')
+        assert self.poolsTab.pool_present(new_pool_name, pg_num=64, app='rbd rgw cephfs')
+
+    def test_oA005_del_pool_repl_pg_24_rgw(self):
+        """
+        Create new pool: replicated, pgNum=24, app=rgw
+        Delete newly created pool 
+        """
+        new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=24, app='rgw')
+        assert self.poolsTab.pool_present(new_pool_name, pg_num=24, app='rgw')
+        self.poolsTab.delete_pool(new_pool_name)
+        # TODO how to verify that pool is deleted? create list of all pools - use bs? 
+
+    def test_oA006_del_pool_ec_pg_32_rgw_rbd(self):
+        """
+        Create new pool: erasure, pgNum=32, app=rgw,rbd
+        Delete newly created pool 
+        """
+        new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=32, app='rgw rbd')
+        assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rgw rbd')
+        self.poolsTab.delete_pool(new_pool_name)
+        # TODO how to verify that pool is deleted? create list of all pools - use bs? 
+
     def tearDown(self):
         self.driver.close()
 

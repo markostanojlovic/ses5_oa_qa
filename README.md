@@ -2,9 +2,9 @@
 
 [**Test Case Definitions**](https://github.com/markostanojlovic/ses5_oa_qa/wiki/Test-Case-Definitions)
 
-Number of defined TCs (Test Cases): 4
+Number of defined TCs (Test Cases): 7
 
-Duration of all tests suite: 60.65 s
+Duration of all tests suite: 122.80 s
 
 ## Requirements :
 
