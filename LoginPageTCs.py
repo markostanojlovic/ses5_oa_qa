@@ -20,7 +20,7 @@ class TestLoginPage(unittest.TestCase):
     def test_TC001_default_login(self):
         self.loginpage.login()
         self.loginpage.fetch_element(MainMenuLocators.DASHBOARD)
-        print(self.driver.current_url)
+        # print(self.driver.current_url)
 
     def tearDown(self):
         self.driver.close()

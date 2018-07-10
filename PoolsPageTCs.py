@@ -5,7 +5,8 @@ from page import PoolsTab
 from locators import LoginPageLocators
 from locators import MainMenuLocators
 from locators import CommonTabLocators
-import re
+import re, time
+import pytest
 
 class TestPoolsPage(unittest.TestCase):
     """
@@ -56,15 +57,21 @@ class TestPoolsPage(unittest.TestCase):
         self.poolsTab.edit_pool(pool_name=new_pool_name, pg_num=64, app='rbd rgw cephfs')
         assert self.poolsTab.pool_present(new_pool_name, pg_num=64, app='rbd rgw cephfs')
 
-    def test_oA005_del_pool_repl_pg_24_rgw(self):
+    def test_oA005_del_pool_repl_pg_64_rgw(self):
         """
-        Create new pool: replicated, pgNum=24, app=rgw
+        Create new pool: replicated, pgNum=64, app=rgw
         Delete newly created pool 
         """
-        new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=24, app='rgw')
-        assert self.poolsTab.pool_present(new_pool_name, pg_num=24, app='rgw')
+        new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=64, app='rgw')
+        try:
+            assert self.poolsTab.pool_present(new_pool_name, pg_num=64, app='rgw')
+        except AssertionError:
+            print("Assertion Error: Pool {} not found.".format(new_pool_name))
+            exit(1)
         self.poolsTab.delete_pool(new_pool_name)
-        # TODO how to verify that pool is deleted? create list of all pools - use bs? 
+        # VERIFY THAT POOL IS DELETED
+        available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
+        assert new_pool_name not in available_pools_list
 
     def test_oA006_del_pool_ec_pg_32_rgw_rbd(self):
         """
@@ -74,7 +81,30 @@ class TestPoolsPage(unittest.TestCase):
         new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=32, app='rgw rbd')
         assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rgw rbd')
         self.poolsTab.delete_pool(new_pool_name)
-        # TODO how to verify that pool is deleted? create list of all pools - use bs? 
+        # VERIFY THAT POOL IS DELETED
+        available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
+        assert new_pool_name not in available_pools_list
+
+    @pytest.mark.skip(reason="this is just a maintanance task - cleanup after suite execution")
+    def test_delete_all_qa_pools(self):
+        """
+        Delete all pools with qa_ prefix by clicking on multiple check boxes. 
+        """
+        available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
+        to_be_deleted_list = []
+        for pool in available_pools_list:
+            if re.match(r'^qa_.*', pool): # make a batter regular expression TODO
+                to_be_deleted_list.append(pool)
+        for pool in to_be_deleted_list:
+            print(pool) #DEBUG
+            self.poolsTab.delete_pool(pool) # TODO works, but not always, but anyway faster to use check boxes
+            time.sleep(3)
+
+    @pytest.mark.skip
+    def test_dev(self):
+        available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
+        for i in available_pools_list:
+            print(i)
 
     def tearDown(self):
         self.driver.close()

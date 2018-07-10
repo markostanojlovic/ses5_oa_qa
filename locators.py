@@ -30,6 +30,7 @@ class CommonTabLocators:
     TABLE_LENGTH_CHOOSE_DDB = (By.XPATH, "(//div[@class='dataTables_length widget-toolbar'])") 
     TABLE_LENGTH_100 = (By.LINK_TEXT, "100")
     REFRESH_BUTTON = (By.XPATH, "//div[@class='widget-toolbar tc_refreshBtn']")
+    BACKGROUD_TASKS = (By.XPATH, "//span[@class='ng-scope']//span")
 
 class PoolsTabLocators:
     TAB_PAGE_TEXT = (By.XPATH, "//span[text()='Ceph Pools']")
@@ -55,4 +56,5 @@ class PoolsTabLocators:
     DELETE_CONFIRMATION_TEXT = (By.XPATH, "//kbd[@class='ng-binding ng-scope']")
     DELETE_CONFIRMATION_INPUT = (By.XPATH, "(//input[@name='enteredName'])")
     DELETE_YES_BUTTON = (By.XPATH, "(//button[@class='btn btn-sm btn-primary tc_submitButton'])")
+    MAIN_VIEW = (By.XPATH, "//div[@ui-view='main']")
 

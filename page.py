@@ -8,7 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 import yaml
-import binascii, os
+import binascii, os, time, re
+from bs4 import BeautifulSoup
 
 # Each class is a separate page of the web app
 
@@ -42,6 +43,37 @@ class BasePage(object):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException: return False
         return True
+
+    def WaitNoBackgroundTasks(self):
+        time.sleep(3) # if not done, method is done before, back. task is updated 
+        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element(CommonTabLocators.BACKGROUD_TASKS, 'Background-Tasks'))
+
+    def get_table_column(self, tab, col_name):
+        """
+        tab = OSDS | RBDS | POOLS | NODES | ...
+        col_name = Name | ID | Applications | Placement groups | ...
+        """
+        self.click_button(getattr(MainMenuLocators, tab))
+        # VERIFY THE PAGE IS LOADED
+        self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
+        # SET MAX NUMBER OF DISPLAYED ELEMENTS - 100 
+        self.click_button(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB)
+        self.click_button(CommonTabLocators.TABLE_LENGTH_100)
+        self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
+        # GET VALUES FROM THE TABLE COLUMN
+        soup = BeautifulSoup(self.driver.page_source, "html.parser")
+        column = []
+        available_columns = set()
+        for row in soup.find_all('tr')[1:]: # skipping the first, header row
+            for cell in row.find_all('td')[1:]: # skipping the first column, the select check box button
+                available_columns.add(cell.get('ng-show'))
+                if col_name in cell.get('ng-show'):
+                    column.append(cell.text.strip())
+        if len(column) == 0:
+            # PRINT AVAILABLE COLUMS
+            for i in available_columns:
+                print(i)
+        return column
 
 class LoginPage(BasePage):
     """
@@ -114,6 +146,8 @@ class PoolsTab(BasePage):
             self.click_button(PoolsTabLocators.NEW_POOL_ADD_APP_BUTTON)
         # FINISH CREATING NEW POOL BY CLICKING ON SUBMIT BUTTON
         self.click_button(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
+        self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
+        self.WaitNoBackgroundTasks()
         return self.new_pool_name
 
     def pool_present(self, pool_name, **kwargs):
@@ -153,6 +187,8 @@ class PoolsTab(BasePage):
                 self.click_button(locator)
                 self.click_button(PoolsTabLocators.NEW_POOL_ADD_APP_BUTTON)
         self.click_button(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
+        self.fetch_element(PoolsTabLocators.MAIN_VIEW)
+        self.WaitNoBackgroundTasks()
 
     def delete_pool(self, pool_name):
         self.click_button(MainMenuLocators.POOLS)
@@ -163,6 +199,9 @@ class PoolsTab(BasePage):
         confirmation_text = self.fetch_element(PoolsTabLocators.DELETE_CONFIRMATION_TEXT).text
         self.send_keys(PoolsTabLocators.DELETE_CONFIRMATION_INPUT, confirmation_text)
         self.click_button(PoolsTabLocators.DELETE_YES_BUTTON)
+        self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
+        self.WaitNoBackgroundTasks()
+        
 
 
 
