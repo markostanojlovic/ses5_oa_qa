@@ -2,9 +2,9 @@
 
 [**Test Case Definitions**](https://github.com/markostanojlovic/ses5_oa_qa/wiki/Test-Case-Definitions)
 
-Number of defined TCs (Test Cases): 7
+Number of defined TCs (Test Cases): 8
 
-Duration of all tests suite: 122.80 s
+Duration of all tests suite: 184.44 s
 
 ## Requirements :
 
@@ -35,4 +35,4 @@ Duration of all tests suite: 122.80 s
 
 - To run suite by unittest: `python suite_all_tests.py -v`
 - To run suite by pytest:   `pytest suite_all_tests.py -v`
-- To generate html-report:  `pytest --html=report.html suite_all_tests.py
+- To generate html-report:  `pytest --html=report.html suite_all_tests.py`

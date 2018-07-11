@@ -2,6 +2,7 @@ from locators import LoginPageLocators
 from locators import MainMenuLocators
 from locators import CommonTabLocators
 from locators import PoolsTabLocators
+from locators import RbdsTabLocators
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -30,6 +31,9 @@ class BasePage(object):
         # TODO add try except
         return WebDriverWait(self.driver, self.timeout).until(EC.visibility_of_element_located(locator))
 
+    def wait_for_element(self, locator, time='10'):
+        return WebDriverWait(self.driver, time).until(EC.visibility_of_element_located(locator))
+
     def click_button(self, locator):
         WebDriverWait(self.driver, self.timeout).until(EC.visibility_of_element_located(locator)).click()
 
@@ -45,6 +49,9 @@ class BasePage(object):
         return True
 
     def WaitNoBackgroundTasks(self):
+        """
+        Should be avided to use, it will block parallel testing. 
+        """
         time.sleep(3) # if not done, method is done before, back. task is updated 
         WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element(CommonTabLocators.BACKGROUD_TASKS, 'Background-Tasks'))
 
@@ -147,7 +154,6 @@ class PoolsTab(BasePage):
         # FINISH CREATING NEW POOL BY CLICKING ON SUBMIT BUTTON
         self.click_button(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
         self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
-        self.WaitNoBackgroundTasks()
         return self.new_pool_name
 
     def pool_present(self, pool_name, **kwargs):
@@ -188,26 +194,51 @@ class PoolsTab(BasePage):
                 self.click_button(PoolsTabLocators.NEW_POOL_ADD_APP_BUTTON)
         self.click_button(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
         self.fetch_element(PoolsTabLocators.MAIN_VIEW)
-        self.WaitNoBackgroundTasks()
 
     def delete_pool(self, pool_name):
         self.click_button(MainMenuLocators.POOLS)
-        locator = (By.XPATH, "(//a[text()='" + pool_name + "']/parent::td/parent::tr//input[@type='checkbox'])")
+        locator = (By.XPATH, "(//a[text()='" + pool_name + "']/parent::td/parent::tr//input[@type='checkbox'])") # TODO prebaci da bude staticmethod u lokator klasi
         self.click_button(locator)
         self.click_button(PoolsTabLocators.EDIT_DDB)
-        self.click_button(PoolsTabLocators.DELETE_BUTTON)
+        self.click_button(PoolsTabLocators.DELETE_BUTTON) # TODO why only SOMETIMES fails here? 
         confirmation_text = self.fetch_element(PoolsTabLocators.DELETE_CONFIRMATION_TEXT).text
         self.send_keys(PoolsTabLocators.DELETE_CONFIRMATION_INPUT, confirmation_text)
         self.click_button(PoolsTabLocators.DELETE_YES_BUTTON)
         self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
-        self.WaitNoBackgroundTasks()
+        time.sleep(5) # self.WaitNoBackgroundTasks() # instead of this, find other way to get notified TODO
         
+class RBDsTab(BasePage):
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.click_button(MainMenuLocators.RBDS)
+        self.wait_for_element(CommonTabLocators.TABLE, 50) 
 
+    def new_rbd_image(self,  poolName, imgSize=10, objSize=4, **other):
+        """
+        Creating a new RBD image.
+        Image size is in GB, and object size is in MB. 
+        """
+        self.click_button(MainMenuLocators.RBDS)
+        self.wait_for_element(CommonTabLocators.TABLE, 50)
+        self.click_button(RbdsTabLocators.ADD_BUTTON)
+        name_hash_suffix = binascii.hexlify(os.urandom(4))
+        name = "qa_rbd_img_" + name_hash_suffix.decode("utf-8")
+        self.clear_field(RbdsTabLocators.NEW_RBD_NAME)
+        self.send_keys(RbdsTabLocators.NEW_RBD_NAME, name)
+        self.click_button(RbdsTabLocators.get_pool_locator(poolName))
+        self.send_keys(RbdsTabLocators.IMG_SIZE_FIELD, str(imgSize) + "GB")
+        self.send_keys(RbdsTabLocators.OBJ_SIZE_FIELD, str(objSize) + "MB")
+        self.click_button(RbdsTabLocators.SUBMIT_BUTTON)
+        self.wait_for_element(CommonTabLocators.TABLE, 50)
+        return name
 
-
-
-
-
-
+    def delete_rbd_image(self, imgName, poolName):
+        self.click_button(MainMenuLocators.RBDS)
+        self.wait_for_element(CommonTabLocators.TABLE, 50)
+        self.click_button(RbdsTabLocators.get_rbd_img_checkbox_locator(imgName))
+        # TODO click on delete button
+        # TODO type the confirmation text
+        # TODO click on delete button 
+        # TODO verify that image is deleted 
 
 

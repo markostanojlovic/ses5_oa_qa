@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+import time
 
 # USAGE: For each page create a class and define locators for it
 # Legend of acronyms:
@@ -31,6 +32,7 @@ class CommonTabLocators:
     TABLE_LENGTH_100 = (By.LINK_TEXT, "100")
     REFRESH_BUTTON = (By.XPATH, "//div[@class='widget-toolbar tc_refreshBtn']")
     BACKGROUD_TASKS = (By.XPATH, "//span[@class='ng-scope']//span")
+    TABLE = (By.XPATH, "//span[text()='Name']//ancestor::th") # assuming that Name field in the table header is enough
 
 class PoolsTabLocators:
     TAB_PAGE_TEXT = (By.XPATH, "//span[text()='Ceph Pools']")
@@ -58,3 +60,20 @@ class PoolsTabLocators:
     DELETE_YES_BUTTON = (By.XPATH, "(//button[@class='btn btn-sm btn-primary tc_submitButton'])")
     MAIN_VIEW = (By.XPATH, "//div[@ui-view='main']")
 
+class RbdsTabLocators:
+    ADD_BUTTON = (By.XPATH, "//span[text()='Ceph RBDs']/ancestor::div//a[@class='btn btn-sm btn-primary tc_add_btn ng-scope']")
+    NEW_RBD_NAME = (By.ID, "name")
+
+    @staticmethod
+    def get_pool_locator(pool_name):
+        time.sleep(3) # waiting to load list of pools TODO find a dynamic way to wait
+        return (By.XPATH, "//select[@id='pool']/option[contains(@label, '{}')]".format(pool_name))
+
+    @staticmethod
+    def get_rbd_img_checkbox_locator(img_name):
+        return (By.XPATH, "//a[text()='{}']/ancestor::tr//input[@type='checkbox']".format(img_name))
+
+    IMG_SIZE_FIELD = (By.ID, "size")
+    OBJ_SIZE_FIELD = (By.ID, "obj_size")
+    SUBMIT_BUTTON = (By.XPATH, "//button[@type='submit']")
+    

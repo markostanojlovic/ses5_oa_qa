@@ -77,9 +77,11 @@ class TestPoolsPage(unittest.TestCase):
         """
         Create new pool: erasure, pgNum=32, app=rgw,rbd
         Delete newly created pool 
+        Run with command: python PoolsPageTCs.py TestPoolsPage.test_delete_all_qa_pools -v
         """
         new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=32, app='rgw rbd')
         assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rgw rbd')
+        time.sleep(5) # wait until pool is created, taks not running TODO find a dynamic way for this  
         self.poolsTab.delete_pool(new_pool_name)
         # VERIFY THAT POOL IS DELETED
         available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
@@ -95,9 +97,10 @@ class TestPoolsPage(unittest.TestCase):
         for pool in available_pools_list:
             if re.match(r'^qa_.*', pool): # make a batter regular expression TODO
                 to_be_deleted_list.append(pool)
+        print('\n')
         for pool in to_be_deleted_list:
             print(pool) #DEBUG
-            self.poolsTab.delete_pool(pool) # TODO works, but not always, but anyway faster to use check boxes
+            self.poolsTab.delete_pool(pool) # TODO works, but not stable, anyway faster is to use check boxes
             time.sleep(3)
 
     @pytest.mark.skip

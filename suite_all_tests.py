@@ -1,6 +1,7 @@
 import unittest
 from LoginPageTCs import TestLoginPage
 from PoolsPageTCs import TestPoolsPage
+from RBDsPageTCs import TestRBDsPage
 
 # TODO
 # Add on the end of each test checking of notifications, failed tasks and logs...
@@ -14,6 +15,7 @@ def suite():
     suite.addTest (TestPoolsPage('test_oA004_edit_pool_ec_pg_16_app_rgw'))
     suite.addTest (TestPoolsPage('test_oA005_del_pool_repl_pg_64_rgw'))
     suite.addTest (TestPoolsPage('test_oA006_del_pool_ec_pg_32_rgw_rbd'))
+    suite.addTest (TestRBDsPage('test_oA007_new_RBD_15G_from_repl_pg_16'))
     return suite
 
 if __name__ == '__main__':
