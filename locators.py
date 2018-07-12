@@ -28,11 +28,18 @@ class MainMenuLocators:
 
 class CommonTabLocators:
     ADD_BUTTON = (By.LINK_TEXT, "Add")
-    TABLE_LENGTH_CHOOSE_DDB = (By.XPATH, "(//div[@class='dataTables_length widget-toolbar'])") 
+    TABLE_LENGTH_CHOOSE_DDB = (By.XPATH, "(//div[@class='dataTables_length widget-toolbar'])")
     TABLE_LENGTH_100 = (By.LINK_TEXT, "100")
     REFRESH_BUTTON = (By.XPATH, "//div[@class='widget-toolbar tc_refreshBtn']")
     BACKGROUD_TASKS = (By.XPATH, "//span[@class='ng-scope']//span")
     TABLE = (By.XPATH, "//span[text()='Name']//ancestor::th") # assuming that Name field in the table header is enough
+    TABLE_NEXT_PAGE = (By.XPATH, "//span[@class='i fa fa-angle-right']")
+    TABLE_FOOTER_INFO = (By.XPATH, "//div[@class='dataTables_info']")
+    ALERT = (By.ID, "toasty")
+    TABLE_ERROR_HEADING = (By.XPATH, "//h3[@class='panel-title ng-binding']")
+    TABLE_ERROR_BODY = (By.XPATH, "//div[@class='panel-body']")
+    NOTIFICATIONS_BUTTON = (By.XPATH, "//a[@class='dropdown-toggle'][@title='Recent Notifications']")
+    NOTIFICATION_MESSAGES = (By.XPATH, "//a[@class='dropdown-toggle'][@title='Recent Notifications']//ancestor::oa-notifications//ul")
 
 class PoolsTabLocators:
     TAB_PAGE_TEXT = (By.XPATH, "//span[text()='Ceph Pools']")

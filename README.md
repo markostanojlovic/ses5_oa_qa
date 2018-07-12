@@ -36,3 +36,9 @@ Duration of all tests suite: 184.44 s
 - To run suite by unittest: `python suite_all_tests.py -v`
 - To run suite by pytest:   `pytest suite_all_tests.py -v`
 - To generate html-report:  `pytest --html=report.html suite_all_tests.py`
+
+### HTML report 
+
+`pytest suite_all_tests.py -v --html=suite_all_tests_report.html --self-contained-html`
+
+Copy the html report to location of the html server, for example: `/usr/share/nginx/html/`

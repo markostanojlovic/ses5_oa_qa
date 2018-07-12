@@ -110,6 +110,7 @@ class TestPoolsPage(unittest.TestCase):
             print(i)
 
     def tearDown(self):
+        print(self._testMethodDoc)
         self.driver.close()
 
 if __name__ == '__main__':

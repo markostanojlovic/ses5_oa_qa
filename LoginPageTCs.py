@@ -7,7 +7,7 @@ import re
 
 class TestLoginPage(unittest.TestCase):
     """
-    Test Cases for login page
+    Test Cases for login page.
     """
     def setUp(self):
         # TODO make a class that will select browser
@@ -18,11 +18,14 @@ class TestLoginPage(unittest.TestCase):
         self.loginpage = LoginPage(self.driver)
 
     def test_TC001_default_login(self):
+        """
+        Default login test with openattic/openattic credentials. 
+        """
         self.loginpage.login()
         self.loginpage.fetch_element(MainMenuLocators.DASHBOARD)
-        # print(self.driver.current_url)
 
     def tearDown(self):
+        print(self._testMethodDoc)
         self.driver.close()
 
 if __name__ == '__main__':
