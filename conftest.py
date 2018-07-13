@@ -2,39 +2,37 @@ import pytest
 from pprint import pprint
 import datetime
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def driver_get(request):
     """
     For whole test suite, running one Chrome browser seassion. 
     """
     from selenium import webdriver
-    # TODO how to select browser from parameters... ?
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('headless')
     chrome_options.add_argument('window-size=1920x1080')
-    web_driver = webdriver.Chrome(options=chrome_options)
-    # web_driver = webdriver.Chrome() # headfull Chrome for debugging 
-    session = request.node
-    for item in session.items:
-        cls = item.getparent(pytest.Class)
-        setattr(cls.obj, "driver", web_driver)
+    web_driver = webdriver.Chrome(options=chrome_options) # TODO paramatrize to use headless etc. 
+    # web_driver = webdriver.Chrome() # DEBUG 
+    request.cls.driver = web_driver
     yield
     web_driver.close()
 
-@pytest.fixture(scope="session")
-def default_login(request):
-    """
-    Login with default credentials.
-    """
-    pass
-    # self.loginpage = LoginPage(self.driver)
-    # self.loginpage.login()
-    # session = request.node
-    # for item in session.items:
-    #     cls = item.getparent(pytest.Class)
-    #     setattr(cls.obj, "driver", web_driver)
-    # yield
-    # loginpage.logout() TODO
+# @pytest.fixture(scope="session") # use for all 
+# def driver_get(request):
+#     """
+#     For whole test suite, running one Chrome browser seassion. 
+#     """
+#     from selenium import webdriver
+#     chrome_options = webdriver.ChromeOptions()
+#     chrome_options.add_argument('headless')
+#     chrome_options.add_argument('window-size=1920x1080')
+#     web_driver = webdriver.Chrome(options=chrome_options)
+#     session = request.node
+#     for item in session.items:
+#         cls = item.getparent(pytest.Class)
+#         setattr(cls.obj, "driver", web_driver)
+#     yield
+#     web_driver.close()
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):

@@ -2,13 +2,11 @@
 
 [**Test Case Definitions**](https://github.com/markostanojlovic/ses5_oa_qa/wiki/Test-Case-Definitions)
 
-Number of defined TCs (Test Cases): 8
-
-Duration of all tests suite: 184.44 s
+Execution time of all tests: 9 passed, 4 skipped in 186.09 seconds
 
 ## Requirements :
 
-- Chrome browser 
+- Chrome browser + webdriver
 - Python 3.6
 - Python modules: *list is in python_requirement.txt file*
 - Connection to running SES cluster with:
@@ -23,28 +21,23 @@ Duration of all tests suite: 184.44 s
 - To setup Python environment run: `./py_setup.sh`
 
 ### Selenium Webdriver for Chrome 
+### Selenium Webdriver for Firefox 
  
 
 ## How to use the tests 
 
 ### Running individual test 
 
-- To run test by unittest: `python LoginPageTCs.py TestLoginPage.test_TC001_default_login`
+- To run test by unittest (*obsolete*): `python LoginPageTCs.py TestLoginPage.test_TC001_default_login` 
 
 ### Running the suite 
 
-- To run suite by unittest: `python suite_all_tests.py -v`
-- To run suite by pytest:   `pytest suite_all_tests.py -v`
-- To generate html-report:  `pytest --html=report.html suite_all_tests.py`
+- To run all test by pytest:   `pytest -v`
 
 ### HTML report 
 
 This takes all defined test in all files with prefix "test_":
 
 `pytest -v --html=pytest_report.html --self-contained-html`
-
-or for running all tests defined as unittest suite:
-
-`pytest suite_all_tests.py -v --html=suite_all_tests_report.html --self-contained-html`
 
 Copy the html report to location of the html server, for example: `/usr/share/nginx/html/`

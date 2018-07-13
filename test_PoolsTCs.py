@@ -1,6 +1,4 @@
-import unittest
-from selenium import webdriver
-from page import LoginPage
+from tests import BaseTest
 from page import PoolsTab
 from locators import LoginPageLocators
 from locators import MainMenuLocators
@@ -8,14 +6,12 @@ from locators import CommonTabLocators
 import re, time
 import pytest
 
-@pytest.mark.usefixtures("driver_get")
-class TestPoolsPage(unittest.TestCase):
+class TestPoolsPage(BaseTest):
     """
     Test Cases for Pools tab
     """
     def setUp(self):
-        self.loginpage = LoginPage(self.driver)
-        self.loginpage.login()
+        super().setUp()
         self.poolsTab = PoolsTab(self.driver)
 
     def test_oA001_new_pool_repl_3_pg_16_app_rbd(self):
@@ -103,10 +99,3 @@ class TestPoolsPage(unittest.TestCase):
         available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
         for i in available_pools_list:
             print(i)
-
-    def tearDown(self):
-        print(self._testMethodDoc)
-        self.loginpage.logout()
-
-if __name__ == '__main__':
-    unittest.main()

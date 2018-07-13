@@ -1,5 +1,4 @@
-import unittest
-from selenium import webdriver
+from tests import BaseTest
 from page import LoginPage
 from page import PoolsTab
 from page import RBDsTab
@@ -10,15 +9,10 @@ import re
 from selenium.webdriver.common.by import By
 import pytest
 
-@pytest.mark.usefixtures("driver_get")
-class TestRBDsPage(unittest.TestCase):
+class TestRBDsPage(BaseTest):
     """
     Test Cases for testing RBDs tab.
     """
-    def setUp(self):
-        self.loginpage = LoginPage(self.driver)
-        self.loginpage.login()
-
     def test_oA007_new_RBD_15G_from_repl_pg_16(self):
         """
         Create RBD image 15GB from newly created pool: replicated, pgNum=16, app=rbd
@@ -51,10 +45,3 @@ class TestRBDsPage(unittest.TestCase):
         """
         """
         pass
-    
-    def tearDown(self):
-        print(self._testMethodDoc)
-        self.loginpage.logout()
-
-if __name__ == '__main__':
-    unittest.main()

@@ -1,5 +1,4 @@
-import unittest
-from selenium import webdriver
+from tests import BaseTest
 from page import LoginPage
 from page import PoolsTab
 from locators import LoginPageLocators
@@ -7,19 +6,13 @@ from locators import MainMenuLocators
 from locators import CommonTabLocators
 from locators import PoolsTabLocators
 import re, time
-import pytest
 from bs4 import BeautifulSoup
 
-@pytest.mark.usefixtures("driver_get")
-class TestBugs(unittest.TestCase):
+class TestBugs(BaseTest):
     """
     Test Cases for reproducing bugs.
     When the test is passed, means that the bug is still active. 
     """
-    def setUp(self):
-        self.loginpage = LoginPage(self.driver)
-        self.loginpage.login()
-
     def test_bug_1100710(self):
         """
         Reproducing bug#1100710
@@ -52,10 +45,3 @@ class TestBugs(unittest.TestCase):
                 print('\n---------------------------')
                 print(msg.getText().strip())
                 print('\n---------------------------')
-
-    def tearDown(self):
-        print(self._testMethodDoc)
-        self.loginpage.logout()
-
-if __name__ == '__main__':
-    unittest.main()
