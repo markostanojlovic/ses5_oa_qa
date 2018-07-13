@@ -2,6 +2,40 @@ import pytest
 from pprint import pprint
 import datetime
 
+@pytest.fixture(scope="session")
+def driver_get(request):
+    """
+    For whole test suite, running one Chrome browser seassion. 
+    """
+    from selenium import webdriver
+    # TODO how to select browser from parameters... ?
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('headless')
+    chrome_options.add_argument('window-size=1920x1080')
+    web_driver = webdriver.Chrome(options=chrome_options)
+    # web_driver = webdriver.Chrome() # headfull Chrome for debugging 
+    session = request.node
+    for item in session.items:
+        cls = item.getparent(pytest.Class)
+        setattr(cls.obj, "driver", web_driver)
+    yield
+    web_driver.close()
+
+@pytest.fixture(scope="session")
+def default_login(request):
+    """
+    Login with default credentials.
+    """
+    pass
+    # self.loginpage = LoginPage(self.driver)
+    # self.loginpage.login()
+    # session = request.node
+    # for item in session.items:
+    #     cls = item.getparent(pytest.Class)
+    #     setattr(cls.obj, "driver", web_driver)
+    # yield
+    # loginpage.logout() TODO
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     """
@@ -14,7 +48,7 @@ def pytest_runtest_makereport(item, call):
 
     # we only look at actual failing test calls, not setup/teardown
     if rep.when == "call" and rep.failed:
-        path = './prtsc_failed'
+        path = './prtsc_failed' # TODO create a directory if not existing 
         today = datetime.date.today().strftime('%Y_%m_%d')
         time = datetime.datetime.now().time().strftime('%H_%M')
         timestamp = today + '_' + time

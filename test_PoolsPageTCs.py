@@ -8,17 +8,12 @@ from locators import CommonTabLocators
 import re, time
 import pytest
 
+@pytest.mark.usefixtures("driver_get")
 class TestPoolsPage(unittest.TestCase):
     """
     Test Cases for Pools tab
     """
     def setUp(self):
-        # TODO make a class that will select browser
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('headless')
-        chrome_options.add_argument('window-size=1920x1080')
-        self.driver = webdriver.Chrome(options=chrome_options)
-        # self.driver = webdriver.Chrome() # headfull Chrome for debugging 
         self.loginpage = LoginPage(self.driver)
         self.loginpage.login()
         self.poolsTab = PoolsTab(self.driver)
@@ -103,7 +98,7 @@ class TestPoolsPage(unittest.TestCase):
             self.poolsTab.delete_pool(pool) # TODO works, but not stable, anyway faster is to use check boxes
             time.sleep(3)
 
-    @pytest.mark.skip
+    @pytest.mark.skip(reason="used only for testing various stages of test development")
     def test_dev(self):
         available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
         for i in available_pools_list:
@@ -111,7 +106,7 @@ class TestPoolsPage(unittest.TestCase):
 
     def tearDown(self):
         print(self._testMethodDoc)
-        self.driver.close()
+        self.loginpage.logout()
 
 if __name__ == '__main__':
     unittest.main()

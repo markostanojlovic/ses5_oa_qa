@@ -10,17 +10,12 @@ import re
 from selenium.webdriver.common.by import By
 import pytest
 
+@pytest.mark.usefixtures("driver_get")
 class TestRBDsPage(unittest.TestCase):
     """
-    Test Cases for testing RBDs tab
+    Test Cases for testing RBDs tab.
     """
     def setUp(self):
-        # TODO make a class that will select browser
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('headless')
-        chrome_options.add_argument('window-size=1920x1080')
-        self.driver = webdriver.Chrome(options=chrome_options)
-        # self.driver = webdriver.Chrome() # headfull Chrome for debugging 
         self.loginpage = LoginPage(self.driver)
         self.loginpage.login()
 
@@ -59,7 +54,7 @@ class TestRBDsPage(unittest.TestCase):
     
     def tearDown(self):
         print(self._testMethodDoc)
-        self.driver.close()
+        self.loginpage.logout()
 
 if __name__ == '__main__':
     unittest.main()

@@ -39,6 +39,12 @@ Duration of all tests suite: 184.44 s
 
 ### HTML report 
 
+This takes all defined test in all files with prefix "test_":
+
+`pytest -v --html=pytest_report.html --self-contained-html`
+
+or for running all tests defined as unittest suite:
+
 `pytest suite_all_tests.py -v --html=suite_all_tests_report.html --self-contained-html`
 
 Copy the html report to location of the html server, for example: `/usr/share/nginx/html/`

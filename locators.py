@@ -40,6 +40,7 @@ class CommonTabLocators:
     TABLE_ERROR_BODY = (By.XPATH, "//div[@class='panel-body']")
     NOTIFICATIONS_BUTTON = (By.XPATH, "//a[@class='dropdown-toggle'][@title='Recent Notifications']")
     NOTIFICATION_MESSAGES = (By.XPATH, "//a[@class='dropdown-toggle'][@title='Recent Notifications']//ancestor::oa-notifications//ul")
+    LOGOUT_BUTTON = (By.XPATH, "//a[@title='Sign Out']")
 
 class PoolsTabLocators:
     TAB_PAGE_TEXT = (By.XPATH, "//span[text()='Ceph Pools']")

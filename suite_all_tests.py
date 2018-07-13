@@ -1,11 +1,8 @@
 import unittest
-from LoginPageTCs import TestLoginPage
-from PoolsPageTCs import TestPoolsPage
-from RBDsPageTCs import TestRBDsPage
-from bug_reproduce import TestBugs
-
-# TODO
-# Add on the end of each test checking of notifications, failed tasks and logs...
+from test_LoginPageTCs import TestLoginPage
+from test_PoolsPageTCs import TestPoolsPage
+from test_RBDsPageTCs import TestRBDsPage
+from test_BugReproduceTCs import TestBugs
 
 def suite():
     suite = unittest.TestSuite()

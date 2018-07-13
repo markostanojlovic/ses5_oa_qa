@@ -10,18 +10,13 @@ import re, time
 import pytest
 from bs4 import BeautifulSoup
 
+@pytest.mark.usefixtures("driver_get")
 class TestBugs(unittest.TestCase):
     """
     Test Cases for reproducing bugs.
     When the test is passed, means that the bug is still active. 
     """
     def setUp(self):
-        # TODO make a class that will select browser
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('headless')
-        chrome_options.add_argument('window-size=1920x1080')
-        self.driver = webdriver.Chrome(options=chrome_options)
-        # self.driver = webdriver.Chrome() # headfull Chrome for debugging 
         self.loginpage = LoginPage(self.driver)
         self.loginpage.login()
 
@@ -60,7 +55,7 @@ class TestBugs(unittest.TestCase):
 
     def tearDown(self):
         print(self._testMethodDoc)
-        self.driver.close()
+        self.loginpage.logout()
 
 if __name__ == '__main__':
     unittest.main()

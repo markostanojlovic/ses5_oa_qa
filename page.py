@@ -95,6 +95,9 @@ class LoginPage(BasePage):
         self.send_keys(LoginPageLocators.PASSWORD, usr_pass)
         self.click_button(LoginPageLocators.LOGIN_BUTTON)
 
+    def logout(self):
+        self.click_button(CommonTabLocators.LOGOUT_BUTTON)
+
 class PoolsTab(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
