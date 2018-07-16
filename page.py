@@ -27,8 +27,6 @@ class BasePage(object):
         ActionChains(self.driver).move_to_element(element).perform()
 
     def fetch_element(self, locator):
-        # TODO change from visibility other options
-        # TODO add try except
         return WebDriverWait(self.driver, self.timeout).until(EC.visibility_of_element_located(locator))
 
     def wait_for_element(self, locator, time='10'):
@@ -47,13 +45,6 @@ class BasePage(object):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException: return False
         return True
-
-    def WaitNoBackgroundTasks(self):
-        """
-        Should be avided to use, it will block parallel testing. 
-        """
-        time.sleep(3) # if not done, method is done before, back. task is updated 
-        WebDriverWait(self.driver, 30).until(EC.text_to_be_present_in_element(CommonTabLocators.BACKGROUD_TASKS, 'Background-Tasks'))
 
     def get_table_column(self, tab, col_name):
         """
@@ -101,7 +92,6 @@ class LoginPage(BasePage):
 class PoolsTab(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
-        # self.driver.get("http://" + self.oa_ip + "/openattic/#/ceph/pools")
         self.click_button(MainMenuLocators.POOLS)
         self.fetch_element(PoolsTabLocators.TAB_PAGE_TEXT)
 
@@ -200,15 +190,14 @@ class PoolsTab(BasePage):
 
     def delete_pool(self, pool_name):
         self.click_button(MainMenuLocators.POOLS)
-        locator = (By.XPATH, "(//a[text()='" + pool_name + "']/parent::td/parent::tr//input[@type='checkbox'])") # TODO prebaci da bude staticmethod u lokator klasi
-        self.click_button(locator)
+        self.click_button(PoolsTabLocators.get_pool_checkbox_locator(pool_name))
         self.click_button(PoolsTabLocators.EDIT_DDB)
         self.click_button(PoolsTabLocators.DELETE_BUTTON) # TODO why only SOMETIMES fails here? 
         confirmation_text = self.fetch_element(PoolsTabLocators.DELETE_CONFIRMATION_TEXT).text
         self.send_keys(PoolsTabLocators.DELETE_CONFIRMATION_INPUT, confirmation_text)
         self.click_button(PoolsTabLocators.DELETE_YES_BUTTON)
         self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
-        time.sleep(5) # self.WaitNoBackgroundTasks() # instead of this, find other way to get notified TODO
+        time.sleep(5) # instead of this, find other way to get notified TODO
         
 class RBDsTab(BasePage):
     def __init__(self, driver):

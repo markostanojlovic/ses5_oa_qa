@@ -1,6 +1,6 @@
 import pytest
-from pprint import pprint
 import datetime
+import os
 
 @pytest.fixture(scope="class")
 def driver_get(request):
@@ -32,7 +32,9 @@ def pytest_runtest_makereport(item, call):
     rep = outcome.get_result()
     # we only look at actual failing test calls, not setup/teardown
     if rep.when == "call" and rep.failed:
-        path = './prtsc_failed' # TODO create a directory if not existing 
+        path = './prtsc_failed'
+        if not os.path.exists(path):
+            os.makedirs(path)
         today = datetime.date.today().strftime('%Y_%m_%d')
         time = datetime.datetime.now().time().strftime('%H_%M')
         timestamp = today + '_' + time
@@ -41,24 +43,11 @@ def pytest_runtest_makereport(item, call):
         print('\nDEBUG INFO: Screen captured and available at: {}'.format(prtsc_name))
         if 'web_driver' in item.fixturenames:
             web_driver = item.funcargs['web_driver']
-            print('DEBUG INFO:Current URL: {}'.format(web_driver.current_url)) # DEBUG
+            print('DEBUG INFO:Current URL: {}'.format(web_driver.current_url))
             try:
                 web_driver.save_screenshot(prtsc_name)
             except:
                 print("ERROR: Screenshot creation failed.")            
         else:
-            print('NO WEBDRIVER') # DEBUG 
+            print('NO WEBDRIVER')
             return
-
-# def pytest_addoption(parser):
-#     parser.addoption(
-#         "--milestone", action="store", default="not-a-milestone", help="Milestone: Add milestone number."
-#     )
-
-# @pytest.fixture
-# def milestone(request):
-#     return request.config.getoption("--milestone")
-
-# def pytest_report_header(config):
-#     milestone = 4 # how to add this as command line argument? TODO
-#     return "Milestone {} Build Validation.".format(str(milestone))

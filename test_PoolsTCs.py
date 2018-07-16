@@ -68,7 +68,6 @@ class TestPoolsPage(BaseTest):
         """
         Create new pool: erasure, pgNum=32, app=rgw,rbd
         Delete newly created pool 
-        Run with command: python PoolsPageTCs.py TestPoolsPage.test_delete_all_qa_pools -v
         """
         new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=32, app='rgw rbd')
         assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rgw rbd')
@@ -86,7 +85,7 @@ class TestPoolsPage(BaseTest):
         available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
         to_be_deleted_list = []
         for pool in available_pools_list:
-            if re.match(r'^qa_.*', pool): # make a batter regular expression TODO
+            if re.match(r'^qa_.*', pool): # make a better regular expression TODO
                 to_be_deleted_list.append(pool)
         print('\n')
         for pool in to_be_deleted_list:

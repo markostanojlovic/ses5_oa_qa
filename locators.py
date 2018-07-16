@@ -67,6 +67,10 @@ class PoolsTabLocators:
     DELETE_CONFIRMATION_INPUT = (By.XPATH, "(//input[@name='enteredName'])")
     DELETE_YES_BUTTON = (By.XPATH, "(//button[@class='btn btn-sm btn-primary tc_submitButton'])")
     MAIN_VIEW = (By.XPATH, "//div[@ui-view='main']")
+    
+    @staticmethod
+    def get_pool_checkbox_locator(pool_name):
+        return (By.XPATH, "//a[text()='{}']/parent::td/parent::tr//input[@type='checkbox']".format(pool_name))
 
 class RbdsTabLocators:
     ADD_BUTTON = (By.XPATH, "//span[text()='Ceph RBDs']/ancestor::div//a[@class='btn btn-sm btn-primary tc_add_btn ng-scope']")
