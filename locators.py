@@ -67,7 +67,7 @@ class PoolsTabLocators:
     DELETE_CONFIRMATION_INPUT = (By.XPATH, "(//input[@name='enteredName'])")
     DELETE_YES_BUTTON = (By.XPATH, "(//button[@class='btn btn-sm btn-primary tc_submitButton'])")
     MAIN_VIEW = (By.XPATH, "//div[@ui-view='main']")
-    
+
     @staticmethod
     def get_pool_checkbox_locator(pool_name):
         return (By.XPATH, "//a[text()='{}']/parent::td/parent::tr//input[@type='checkbox']".format(pool_name))
@@ -89,3 +89,26 @@ class RbdsTabLocators:
     OBJ_SIZE_FIELD = (By.ID, "obj_size")
     SUBMIT_BUTTON = (By.XPATH, "//button[@type='submit']")
     
+class ISCSITabLocators:
+    MANAGE_SERVICES_BUTTON = (By.XPATH, "//div[@class='oadatatableactions']//span[text()='Manage service']")
+    ADD_BUTTON = (By.XPATH, "//div[@class='oadatatableactions']//span[text()='Add']")
+    DELETE_BUTTON = (By.XPATH, "//ul[@class='dropdown-menu oa-dropdown-actions oa-dropdown-menu']//span[text()='Delete']")
+    EDIT_DDB = (By.XPATH, "//div[@class='oadatatableactions']//a[@class='btn btn-sm btn-primary dropdown-toggle tc_menudropdown']")
+    SUBMIT_BUTTON = (By.XPATH, "//div[@class='panel-footer']//span[text()='Submit']")
+    ADD_PORTAL_BUTTON = (By.XPATH, "//span[text()='Add portal']")
+    ADD_IMAGE_BUTTON = (By.XPATH, "//span[text()='Add image']")
+    DELETE_CONFIRMATION_TEXT = (By.XPATH, "//kbd[contains(text(), 'iqn')]")
+    DELETE_CONFIRMATION_INPUT = (By.XPATH, "//form[@role='form']//input[@name='enteredName']")
+    DELETE_CONFIRM_BUTTON = (By.XPATH, "//form[@role='form']//span[text()='Delete']")
+
+    @staticmethod
+    def get_portal_locator(name):
+        return (By.XPATH, "//ul[@class='dropdown-menu scrollable-menu pull-right']//a[contains(text(),{})]".format(name))
+
+    @staticmethod
+    def get_image_locator(name):
+        return (By.XPATH, "//ul[@class='dropdown-menu scrollable-menu pull-right']//a[contains(text(),'{}')]".format(name))
+
+    @staticmethod
+    def get_checkbox_locator(name):
+        return (By.XPATH, "//td[text()='{}']//ancestor::tr//input[@type='checkbox']".format(name.replace(' ', '')))

@@ -2,7 +2,7 @@
 
 [**Test Case Definitions**](https://github.com/markostanojlovic/ses5_oa_qa/wiki/Test-Case-Definitions)
 
-Execution time of all tests: 9 passed, 4 skipped in 186.09 seconds
+Execution time of all tests: 11 passed, 4 skipped in 223.60 seconds
 
 ## Requirements :
 

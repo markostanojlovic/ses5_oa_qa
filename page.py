@@ -3,6 +3,7 @@ from locators import MainMenuLocators
 from locators import CommonTabLocators
 from locators import PoolsTabLocators
 from locators import RbdsTabLocators
+from locators import ISCSITabLocators
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -29,11 +30,12 @@ class BasePage(object):
     def fetch_element(self, locator):
         return WebDriverWait(self.driver, self.timeout).until(EC.visibility_of_element_located(locator))
 
-    def wait_for_element(self, locator, time='10'):
+    def wait_for_element(self, locator, time=10):
         return WebDriverWait(self.driver, time).until(EC.visibility_of_element_located(locator))
 
     def click_button(self, locator):
-        WebDriverWait(self.driver, self.timeout).until(EC.visibility_of_element_located(locator)).click()
+        WebDriverWait(self.driver, self.timeout).until(EC.visibility_of_element_located(locator))
+        return WebDriverWait(self.driver, self.timeout).until(EC.element_to_be_clickable(locator)).click()
 
     def clear_field(self, locator):
         WebDriverWait(self.driver, self.timeout).until(EC.visibility_of_element_located(locator)).clear()
@@ -146,7 +148,7 @@ class PoolsTab(BasePage):
             self.click_button(PoolsTabLocators.NEW_POOL_ADD_APP_BUTTON)
         # FINISH CREATING NEW POOL BY CLICKING ON SUBMIT BUTTON
         self.click_button(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
-        self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
+        self.wait_for_element(CommonTabLocators.REFRESH_BUTTON, 30)
         return self.new_pool_name
 
     def pool_present(self, pool_name, **kwargs):
@@ -196,7 +198,7 @@ class PoolsTab(BasePage):
         confirmation_text = self.fetch_element(PoolsTabLocators.DELETE_CONFIRMATION_TEXT).text
         self.send_keys(PoolsTabLocators.DELETE_CONFIRMATION_INPUT, confirmation_text)
         self.click_button(PoolsTabLocators.DELETE_YES_BUTTON)
-        self.fetch_element(CommonTabLocators.REFRESH_BUTTON)
+        self.wait_for_element(CommonTabLocators.REFRESH_BUTTON, 30)
         time.sleep(5) # instead of this, find other way to get notified TODO
         
 class RBDsTab(BasePage):
@@ -232,5 +234,53 @@ class RBDsTab(BasePage):
         # TODO type the confirmation text
         # TODO click on delete button 
         # TODO verify that image is deleted 
+
+class ISCSITab(BasePage):
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.click_button(MainMenuLocators.ISCSI)
+        self.wait_for_element(CommonTabLocators.ADD_BUTTON) 
+    
+    def add_iscsi_img(self, portal, img, **auth):
+        """
+        Add iSCSI image on specified portal. 
+        portal : FQDN or IP of the portal
+        img : "pool_name: image name"
+        auth: yes | no 
+        """
+        # Click on Add button
+        self.click_button(ISCSITabLocators.ADD_BUTTON) 
+        self.wait_for_element(ISCSITabLocators.SUBMIT_BUTTON) 
+        # Add portal
+        self.click_button(ISCSITabLocators.ADD_PORTAL_BUTTON)
+        try:
+            self.click_button(ISCSITabLocators.get_portal_locator(portal)) 
+        except:
+            print('ERROR: Portal not found.')
+        # Add image
+        self.click_button(ISCSITabLocators.ADD_IMAGE_BUTTON) 
+        try:
+            self.click_button(ISCSITabLocators.get_image_locator(img)) 
+        except:
+            print('ERROR: Image not found.')
+        # Click submit
+        time.sleep(2) # TODO why dynamic doesn't work
+        self.click_button(ISCSITabLocators.SUBMIT_BUTTON) 
+        self.wait_for_element(CommonTabLocators.REFRESH_BUTTON, 20)
+        time.sleep(5) # TODO verify that element is in the table 
+
+
+    def delete_iscsi_img(self, img):
+        """
+        Delete iSCSI image. 
+        """
+        self.click_button(ISCSITabLocators.get_checkbox_locator(img)) 
+        self.click_button(ISCSITabLocators.EDIT_DDB)
+        self.click_button(ISCSITabLocators.DELETE_BUTTON)
+        confirmation_text = self.fetch_element(ISCSITabLocators.DELETE_CONFIRMATION_TEXT).text
+        self.send_keys(ISCSITabLocators.DELETE_CONFIRMATION_INPUT, confirmation_text) 
+        self.click_button(ISCSITabLocators.DELETE_CONFIRM_BUTTON)
+        time.sleep(5) # TODO how to wait till confirmation form is not closed? 
+
 
 
