@@ -2,7 +2,7 @@ import unittest
 import pytest
 from page import LoginPage
 
-@pytest.mark.usefixtures("driver_get")
+@pytest.mark.usefixtures("driver_get", "web_driver")
 class BaseTest(unittest.TestCase):
     """
     Base Test Class used for login to the openattic web UI.
