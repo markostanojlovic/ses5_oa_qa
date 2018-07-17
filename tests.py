@@ -13,4 +13,7 @@ class BaseTest(unittest.TestCase):
 
     def tearDown(self):
         print(self._testMethodDoc)
-        self.loginpage.logout()
+        try:
+            self.loginpage.logout()
+        except:
+            print('ERROR: Not possible to logout due to some error.')

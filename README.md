@@ -40,4 +40,14 @@ This takes all defined test in all files with prefix "test_":
 
 `pytest -v --html=pytest_report.html --self-contained-html`
 
-Copy the html report to location of the html server, for example: `/usr/share/nginx/html/`
+Copy the html report to location of the html server, for example: 
+
+`sudo cp pytest_report.html /usr/share/nginx/html/`
+
+### Cleanup operation after suite execution
+
+Delete all pools and images that were created and return cluster in initial state. 
+
+Uncomment `@pytest.mark.skip` descriptor
+Run `pytest test_PoolsTCs.py::TestPoolsPage::test_delete_all_qa_pools -v`
+

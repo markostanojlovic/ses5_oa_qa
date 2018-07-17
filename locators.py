@@ -75,20 +75,40 @@ class PoolsTabLocators:
 class RbdsTabLocators:
     ADD_BUTTON = (By.XPATH, "//span[text()='Ceph RBDs']/ancestor::div//a[@class='btn btn-sm btn-primary tc_add_btn ng-scope']")
     NEW_RBD_NAME = (By.ID, "name")
+    IMG_SIZE_FIELD = (By.ID, "size")
+    OBJ_SIZE_FIELD = (By.ID, "obj_size")
+    SUBMIT_BUTTON = (By.XPATH, "//button[@type='submit']")
+    DEFAULT_FEATURES_CB = (By.XPATH, "//div[@class='panel panel-default']//span[text()='Use default features']")
+    SNAPSHOTS_TAB = (By.LINK_TEXT, 'Snapshots')
+    SNAP_TABLE_REFRESH_BUTTON = (By.XPATH, "//ceph-rbd-snapshot//div[@class='widget-toolbar tc_refreshBtn']//i[@class='fa fa-lg fa-refresh']")
+    SNAP_TABLE_CREATE_BUTTON = (By.XPATH, "//ceph-rbd-snapshot//span[text()='Create']")
+    SNAP_TABLE_DELETE_BUTTON = (By.XPATH, "//ceph-rbd-snapshot//span[text()='Delete']")
+    SNAP_DELETE_CONF_TEXT = (By.XPATH, "//ceph-rbd-snapshot-delete-modal//kbd")
+    SNAP_DELETE_CONF_TEX_INPUT = (By.XPATH, "//ceph-rbd-snapshot-delete-modal//input[@name='enteredName']")
+    SNAP_DELETE_BUTTON = (By.XPATH, "//ceph-rbd-snapshot-delete-modal//span[text()='Delete']//ancestor::button")
+    SNAP_NAME_INPUT = (By.XPATH, "//div[@class='modal-dialog ']//input[@id='name']")
+    SNAP_CREATE_BUTTON = (By.XPATH, "//ceph-rbd-snapshot-create-modal//span[contains(text(), 'Create')]//ancestor::button")
+    SNAP_TABLE = (By.XPATH, "//ceph-rbd-snapshot//tbody")
+    SNAP_TABLE_EMPTY = (By.XPATH, "//ceph-rbd-snapshot//span[text()='No matching records found']")
+    SNAP_TABLE_FIRST_CB = (By.CSS_SELECTOR, "#more > oa-tab-set > div > div.tab-content.ng-scope > ceph-rbd-snapshot > ceph-rbd-snapshot-list > oadatatable > div.dataTables_wrapper > div.table-responsive.dataTables_content > table > tbody > tr > td.ng-scope > input")
+    SNAP_TABLE_DDB = (By.XPATH, "//ceph-rbd-snapshot//a[@class='btn btn-sm btn-primary dropdown-toggle tc_menudropdown']")
+    SNAP_PROTECT = (By.XPATH, "//ceph-rbd-snapshot//span[text()='Protect']")
+    SNAP_PROTECT_FLAG_TEXT = (By.XPATH, "//ceph-rbd-snapshot//tbody//span[text()='PROTECTED']") # TODO this is only for first snapshot
 
     @staticmethod
     def get_pool_locator(pool_name):
         time.sleep(3) # waiting to load list of pools TODO find a dynamic way to wait
         return (By.XPATH, "//select[@id='pool']/option[contains(@label, '{}')]".format(pool_name))
-
     @staticmethod
     def get_rbd_img_checkbox_locator(img_name):
         return (By.XPATH, "//a[text()='{}']/ancestor::tr//input[@type='checkbox']".format(img_name))
+    @staticmethod
+    def get_feature_checkbox_locator(name):
+        return (By.ID, name)
+    @staticmethod
+    def get_rbd_snap_checkbox_locator(snap_name):
+        return (By.XPATH, "//ceph-rbd-snapshot-list//td[contains(text(), '{}')]/ancestor::tr//input[@type='checkbox']".format(snap_name))
 
-    IMG_SIZE_FIELD = (By.ID, "size")
-    OBJ_SIZE_FIELD = (By.ID, "obj_size")
-    SUBMIT_BUTTON = (By.XPATH, "//button[@type='submit']")
-    
 class ISCSITabLocators:
     MANAGE_SERVICES_BUTTON = (By.XPATH, "//div[@class='oadatatableactions']//span[text()='Manage service']")
     ADD_BUTTON = (By.XPATH, "//div[@class='oadatatableactions']//span[text()='Add']")
