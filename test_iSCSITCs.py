@@ -1,11 +1,9 @@
 from tests import BaseTest
-from page import ISCSITab
+from iscsi import ISCSITab
 from locators import LoginPageLocators
 from locators import MainMenuLocators
 from locators import CommonTabLocators
 from locators import ISCSITabLocators
-import pytest
-import time
 
 class TestISCSIPage(BaseTest):
     """
@@ -18,6 +16,9 @@ class TestISCSIPage(BaseTest):
     def test_oA009_add_iscsi_img_no_auth(self):
         """
         Add iSCSI image without authentication.
+        Requirements:
+         - PORTAL hera.qa.suse.cz       is AVAILABLE
+         - IMAGE test in POOL rbd-test  is AVAILABLE
         """
         portal = 'hera.qa.suse.cz'
         img = 'rbd-test: test'

@@ -1,9 +1,9 @@
 from tests import BaseTest
-from page import PoolsTab
+from pools import PoolsTab
 from locators import LoginPageLocators
 from locators import MainMenuLocators
 from locators import CommonTabLocators
-import re, time
+import time
 import pytest
 
 class TestPoolsPage(BaseTest):
@@ -18,83 +18,37 @@ class TestPoolsPage(BaseTest):
         """
         Create new pool: replicated, repl=3, pgNum=16, app=rbd
         """
-        new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=16, app='rbd')
+        new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=16, app='rbd', pool_name='qa_test_repl')
         assert self.poolsTab.pool_present(new_pool_name)
         
     def test_oA002_new_pool_ec_pg_16_app_rbd_cephfs(self):
         """
         Create new pool: erasure coded, pgNum=16, app=rbd,cephfs
         """
-        new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=16, app='rbd cephfs')
+        new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=16, app='rbd cephfs', pool_name='qa_test_ec')
         assert self.poolsTab.pool_present(new_pool_name)
 
-    def test_oA003_edit_pool_repl_3_pg_16_app_rbd(self):
+    def test_oA003_edit_pool_repl(self):
         """
-        Create new pool: replicated, repl=3, pgNum=16, app=rbd
-        Edit that pool: pgNum=32, app=rbd, rgw
+        Edit pool created in test_oA001_new_pool_repl_3_pg_16_app_rbd
         """
-        new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=16, app='rbd')
-        assert self.poolsTab.pool_present(new_pool_name, pg_num=16, app='rbd')
+        new_pool_name = 'qa_test_repl'
         self.poolsTab.edit_pool(pool_name=new_pool_name, pg_num=32, app='rbd rgw')
         assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rbd rgw')
 
-    def test_oA004_edit_pool_ec_pg_16_app_rgw(self):
+    def test_oA004_edit_pool_ec(self):
         """
-        Create new pool: erasure, pgNum=32, app=rgw
-        Edit that pool: pgNum=64, app=rbd, rgw, cephfs
+        Edit pool created in test_oA002_new_pool_ec_pg_16_app_rbd_cephfs
         """
-        new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=32, app='rgw')
-        assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rgw')
+        new_pool_name = 'qa_test_ec'
         self.poolsTab.edit_pool(pool_name=new_pool_name, pg_num=64, app='rbd rgw cephfs')
         assert self.poolsTab.pool_present(new_pool_name, pg_num=64, app='rbd rgw cephfs')
 
-    def test_oA005_del_pool_repl_pg_64_rgw(self):
+    def test_oA999_delete_all_qa_pools(self):
         """
-        Create new pool: replicated, pgNum=64, app=rgw
-        Delete newly created pool 
+        Delete all pools with 'qa_' prefix by clicking on multiple check boxes. 
+        This TC covers oA005 and oA006 TCs and doing the cleanup in the same time.
         """
-        new_pool_name = self.poolsTab.new_pool(pool_type='replicated', repl=3, pg_num=64, app='rgw')
-        try:
-            assert self.poolsTab.pool_present(new_pool_name, pg_num=64, app='rgw')
-        except AssertionError:
-            print("Assertion Error: Pool {} not found.".format(new_pool_name))
-            exit(1)
-        self.poolsTab.delete_pool(new_pool_name)
-        # VERIFY THAT POOL IS DELETED
-        available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
-        assert new_pool_name not in available_pools_list
-
-    def test_oA006_del_pool_ec_pg_32_rgw_rbd(self):
-        """
-        Create new pool: erasure, pgNum=32, app=rgw,rbd
-        Delete newly created pool 
-        """
-        new_pool_name = self.poolsTab.new_pool(pool_type='erasure', pg_num=32, app='rgw rbd')
-        assert self.poolsTab.pool_present(new_pool_name, pg_num=32, app='rgw rbd')
-        time.sleep(5) # wait until pool is created, taks not running TODO find a dynamic way for this  
-        self.poolsTab.delete_pool(new_pool_name)
-        # VERIFY THAT POOL IS DELETED
-        available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
-        assert new_pool_name not in available_pools_list
-
-    @pytest.mark.skip(reason="this is just a maintanance task - cleanup after suite execution")
-    def test_delete_all_qa_pools(self):
-        """
-        Delete all pools with qa_ prefix by clicking on multiple check boxes. 
-        """
-        available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
-        to_be_deleted_list = []
-        for pool in available_pools_list:
-            if re.match(r'^qa_.*', pool): # make a better regular expression TODO
-                to_be_deleted_list.append(pool)
-        print('\n')
-        for pool in to_be_deleted_list:
-            print(pool) #DEBUG
-            self.poolsTab.delete_pool(pool) # TODO works, but not stable, anyway faster is to use check boxes
-            time.sleep(3)
-
-    @pytest.mark.skip(reason="used only for testing various stages of test development")
-    def test_dev(self):
-        available_pools_list = self.poolsTab.get_table_column('POOLS', 'Name')
-        for i in available_pools_list:
-            print(i)
+        self.poolsTab.expand_table_100()
+        if self.poolsTab.checkbox_all('qa_', PoolsTabLocators.POOLS_TABLE):
+            self.poolsTab.delete_selected_pools()

@@ -49,5 +49,6 @@ Copy the html report to location of the html server, for example:
 Delete all pools and images that were created and return cluster in initial state. 
 
 Uncomment `@pytest.mark.skip` descriptor
+
 Run `pytest test_PoolsTCs.py::TestPoolsPage::test_delete_all_qa_pools -v`
 

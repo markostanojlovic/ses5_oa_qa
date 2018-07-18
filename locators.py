@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import By
-import time
 
 # USAGE: For each page create a class and define locators for it
 # Legend of acronyms:
@@ -54,7 +53,7 @@ class PoolsTabLocators:
     NEW_POOL_APP_RGW = (By.XPATH, "(//option[@label='rgw'])")
     NEW_POOL_APP_CEPHFS = (By.XPATH, "(//option[@label='cephfs'])")
     NEW_POOL_ADD_APP_BUTTON = (By.XPATH, "(//button[@class='btn btn-default tc-add-app'])")
-    NEW_POOL_EC_OWERWRITE_CB = (By.XPATH, "//span[text()='EC Overwrite']") # (By.ID, "ec-overwrites") was not working ?
+    NEW_POOL_EC_OWERWRITE_CB = (By.XPATH, "//span[text()='EC Overwrite']")
     NEW_POOL_SUBMIT_BUTTON = (By.CSS_SELECTOR, "button.btn.btn-sm.btn-primary.tc_submitButton")
     NEW_POOL_EC_PROFILE_DDB = (By.ID, "erasureProfiles")
     NEW_POOL_EC_PROFILE_DEFAULT = (By.XPATH, "//option[@label='default']")
@@ -62,11 +61,12 @@ class PoolsTabLocators:
     NEW_POOL_EC_CRUSH_RULESET_EC = (By.XPATH, "//select[@id='crushSet']//option[@label='erasure-code']")
     APPS = (By.XPATH, "//input[@ng-model='appName']")
     EDIT_DDB = (By.XPATH, "(//a[@class='btn btn-sm btn-primary dropdown-toggle tc_menudropdown'])")
-    DELETE_BUTTON = (By.XPATH, "(//li[@class='tc_deleteItem ng-scope'])")
-    DELETE_CONFIRMATION_TEXT = (By.XPATH, "//kbd[@class='ng-binding ng-scope']")
+    DELETE_BUTTON = (By.XPATH, "//oadatatable//li[@class='tc_deleteItem ng-scope']//a")
+    DELETE_CONFIRMATION_TEXT = (By.XPATH, "//oa-delete-confirmation-modal//kbd[@class='ng-binding ng-scope']")
     DELETE_CONFIRMATION_INPUT = (By.XPATH, "(//input[@name='enteredName'])")
     DELETE_YES_BUTTON = (By.XPATH, "(//button[@class='btn btn-sm btn-primary tc_submitButton'])")
     MAIN_VIEW = (By.XPATH, "//div[@ui-view='main']")
+    POOLS_TABLE = (By.XPATH, "//ceph-pools-list//table[@class='table table-striped table-bordered table-hover dataTable datatable ng-scope']//tbody/tr")
 
     @staticmethod
     def get_pool_checkbox_locator(pool_name):
@@ -93,11 +93,14 @@ class RbdsTabLocators:
     SNAP_TABLE_FIRST_CB = (By.CSS_SELECTOR, "#more > oa-tab-set > div > div.tab-content.ng-scope > ceph-rbd-snapshot > ceph-rbd-snapshot-list > oadatatable > div.dataTables_wrapper > div.table-responsive.dataTables_content > table > tbody > tr > td.ng-scope > input")
     SNAP_TABLE_DDB = (By.XPATH, "//ceph-rbd-snapshot//a[@class='btn btn-sm btn-primary dropdown-toggle tc_menudropdown']")
     SNAP_PROTECT = (By.XPATH, "//ceph-rbd-snapshot//span[text()='Protect']")
+    SNAP_CLONE = (By.XPATH, "//ceph-rbd-snapshot//span[text()='Clone']")
     SNAP_PROTECT_FLAG_TEXT = (By.XPATH, "//ceph-rbd-snapshot//tbody//span[text()='PROTECTED']") # TODO this is only for first snapshot
+    SNAP_CLONE_NAME_INPUT = (By.XPATH, "//ceph-rbd-form//input[@id='name']")
+    SNAP_CLONE_CLONE_BUTTON = (By.XPATH, "//ceph-rbd-form//oa-submit-button//button[@type='submit']")
+    SNAP_TABLE_ROWS = (By.XPATH, "//ceph-rbd-snapshot//oadatatable//div[@class='table-responsive dataTables_content']//tbody//tr")
 
     @staticmethod
     def get_pool_locator(pool_name):
-        time.sleep(3) # waiting to load list of pools TODO find a dynamic way to wait
         return (By.XPATH, "//select[@id='pool']/option[contains(@label, '{}')]".format(pool_name))
     @staticmethod
     def get_rbd_img_checkbox_locator(img_name):
@@ -105,9 +108,6 @@ class RbdsTabLocators:
     @staticmethod
     def get_feature_checkbox_locator(name):
         return (By.ID, name)
-    @staticmethod
-    def get_rbd_snap_checkbox_locator(snap_name):
-        return (By.XPATH, "//ceph-rbd-snapshot-list//td[contains(text(), '{}')]/ancestor::tr//input[@type='checkbox']".format(snap_name))
 
 class ISCSITabLocators:
     MANAGE_SERVICES_BUTTON = (By.XPATH, "//div[@class='oadatatableactions']//span[text()='Manage service']")

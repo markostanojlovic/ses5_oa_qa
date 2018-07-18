@@ -1,6 +1,5 @@
 from tests import BaseTest
-from page import LoginPage
-from page import PoolsTab
+from pools import PoolsTab
 from locators import LoginPageLocators
 from locators import MainMenuLocators
 from locators import CommonTabLocators
@@ -19,25 +18,25 @@ class TestBugs(BaseTest):
         Bug description: 404 not found when increasing number of rows displayed in a table
         """
         self.poolsTab = PoolsTab(self.driver)
-        self.poolsTab.click_button(MainMenuLocators.POOLS)
+        self.poolsTab.click(MainMenuLocators.POOLS)
         # How many pools are dispalyed and what is the total number? 
-        print("\n\nDEBUG INFO: {}".format(self.poolsTab.fetch_element(CommonTabLocators.TABLE_FOOTER_INFO).text))
+        print("\n\nDEBUG INFO: {}".format(self.poolsTab.wait(CommonTabLocators.TABLE_FOOTER_INFO).text))
         # How many table rows are displayed per page? 
-        print("DEBUG INFO: Rows displayed per page: {}".format(self.poolsTab.fetch_element(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB).text))
-        self.poolsTab.click_button(CommonTabLocators.TABLE_NEXT_PAGE)
+        print("DEBUG INFO: Rows displayed per page: {}".format(self.poolsTab.wait(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB).text))
+        self.poolsTab.click(CommonTabLocators.TABLE_NEXT_PAGE)
         # Click on the increase-table-rows-button
-        self.poolsTab.click_button(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB)
+        self.poolsTab.click(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB)
         # Click on 100
-        self.poolsTab.click_button(CommonTabLocators.TABLE_LENGTH_100)
+        self.poolsTab.click(CommonTabLocators.TABLE_LENGTH_100)
         # Catch the 404 error
-        err_header = self.poolsTab.fetch_element(CommonTabLocators.TABLE_ERROR_HEADING).text
-        err_body = self.poolsTab.fetch_element(CommonTabLocators.TABLE_ERROR_BODY).text
+        err_header = self.poolsTab.wait(CommonTabLocators.TABLE_ERROR_HEADING).text
+        err_body = self.poolsTab.wait(CommonTabLocators.TABLE_ERROR_BODY).text
         print("DEBUG INFO: {} : {} ".format(err_header,err_body))
         # Wait for alert to pass
         time.sleep(8) # TODO dynamically catch this
         # Checking the notifications section
-        self.poolsTab.click_button(CommonTabLocators.NOTIFICATIONS_BUTTON)
-        notif_html = self.poolsTab.fetch_element(CommonTabLocators.NOTIFICATION_MESSAGES).get_attribute('innerHTML')
+        self.poolsTab.click(CommonTabLocators.NOTIFICATIONS_BUTTON)
+        notif_html = self.poolsTab.wait(CommonTabLocators.NOTIFICATION_MESSAGES).get_attribute('innerHTML')
         soup = BeautifulSoup(notif_html, 'html.parser')
         msgs = soup.find_all('li')
         if len(msgs) > 0 :
