@@ -17,11 +17,11 @@ class TestISCSIPage(BaseTest):
         """
         Add iSCSI image without authentication.
         Requirements:
-         - PORTAL hera.qa.suse.cz       is AVAILABLE
-         - IMAGE test in POOL rbd-test  is AVAILABLE
+         - PORTAL hera.qa.suse.cz                       is AVAILABLE
+         - IMAGE rbd_test_img in POOL rbd_test_pool     is AVAILABLE
         """
         portal = 'hera.qa.suse.cz'
-        img = 'rbd-test: test'
+        img = 'rbd_test_pool: rbd_test_img'
         self.iscsiTab.add_iscsi_img(portal, img)
 
     def test_oA013_remove_iscsi_img(self):
@@ -29,7 +29,7 @@ class TestISCSIPage(BaseTest):
         Remove iSCSI image.
         """
         portal = 'hera.qa.suse.cz'
-        img = 'rbd-test: test'
+        img = 'rbd_test_pool: rbd_test_img'
         self.iscsiTab.delete_iscsi_img(img.replace(' ', ''))
         
 

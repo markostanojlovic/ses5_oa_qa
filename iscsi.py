@@ -44,7 +44,7 @@ class ISCSITab(BasePage):
         self.click(ISCSITabLocators.get_checkbox_locator(img)) 
         self.click(ISCSITabLocators.EDIT_DDB)
         self.click(ISCSITabLocators.DELETE_BUTTON)
-        confirmation_text = self.fetch_element(ISCSITabLocators.DELETE_CONFIRMATION_TEXT).text
+        confirmation_text = self.wait(ISCSITabLocators.DELETE_CONFIRMATION_TEXT).text
         self.send_keys(ISCSITabLocators.DELETE_CONFIRMATION_INPUT, confirmation_text) 
         self.click(ISCSITabLocators.DELETE_CONFIRM_BUTTON)
         time.sleep(3) # TODO how to wait till confirmation form is not closed? 

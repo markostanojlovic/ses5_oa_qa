@@ -3,6 +3,7 @@ from pools import PoolsTab
 from locators import LoginPageLocators
 from locators import MainMenuLocators
 from locators import CommonTabLocators
+from locators import PoolsTabLocators
 import time
 import pytest
 
