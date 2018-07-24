@@ -19,6 +19,8 @@ class TestBugs(BaseTest):
         """
         self.poolsTab = PoolsTab(self.driver)
         self.poolsTab.click(MainMenuLocators.POOLS)
+        self.poolsTab.click(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB)
+        self.poolsTab.click(CommonTabLocators.TABLE_LENGTH_2)
         # How many pools are dispalyed and what is the total number? 
         print("\n\nDEBUG INFO: {}".format(self.poolsTab.wait(CommonTabLocators.TABLE_FOOTER_INFO).text))
         # How many table rows are displayed per page? 

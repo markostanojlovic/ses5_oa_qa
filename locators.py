@@ -27,7 +27,8 @@ class MainMenuLocators:
 
 class CommonTabLocators:
     ADD_BUTTON = (By.LINK_TEXT, "Add")
-    TABLE_LENGTH_CHOOSE_DDB = (By.XPATH, "(//div[@class='dataTables_length widget-toolbar'])")
+    TABLE_LENGTH_CHOOSE_DDB = (By.XPATH, "//div[@class='dataTables_length widget-toolbar']")
+    TABLE_LENGTH_2 = (By.LINK_TEXT, "2")
     TABLE_LENGTH_100 = (By.LINK_TEXT, "100")
     REFRESH_BUTTON = (By.XPATH, "//div[@class='widget-toolbar tc_refreshBtn']")
     BACKGROUD_TASKS = (By.XPATH, "//span[@class='ng-scope']//span")

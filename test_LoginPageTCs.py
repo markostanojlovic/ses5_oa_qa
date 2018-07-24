@@ -1,5 +1,6 @@
 from tests import BaseTest
 from locators import MainMenuLocators
+import pytest
 
 class TestLoginPage(BaseTest):
     """
