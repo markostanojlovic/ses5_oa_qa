@@ -133,3 +133,16 @@ class ISCSITabLocators:
     @staticmethod
     def get_checkbox_locator(name):
         return (By.XPATH, "//td[text()='{}']//ancestor::tr//input[@type='checkbox']".format(name.replace(' ', '')))
+
+class NFSTabLocators:
+    ADD_BUTTON = (By.CSS_SELECTOR, 'body > div.container-fluid > div > div > div > ceph-nfs-list > oa-ceph-cluster-loader > span > oa-module-loader > span > span > span > oadatatable > div.dataTables_wrapper > div.dataTables_header.clearfix > div.oadatatableactions > actions > div > a.btn.btn-sm.btn-primary.tc_add_btn.ng-scope')
+    SUBMIT_BUTTON = (By.CSS_SELECTOR, 'body > div.container-fluid > div > div > div > ceph-nfs-form > div > form > div > div.panel-footer > div > oa-submit-button > button')
+    STORAGE_BACK_DDM = (By.CSS_SELECTOR, '#fsal')
+    STORAGE_BACK_CEPHFS = (By.CSS_SELECTOR, '#fsal > option:nth-child(2)')
+    CEPH_PATH = (By.CSS_SELECTOR, '#path')
+    CEPH_PSEUDO = (By.CSS_SELECTOR, '#pseudo')
+    SQUASH_DDM = (By.CSS_SELECTOR, '#squash')
+    SQUASH_ROOT = (By.CSS_SELECTOR, '#squash > option:nth-child(3)')
+    MNG_SERVICE_BUTTON = (By.CSS_SELECTOR, 'body > div.container-fluid > div > div > div > ceph-nfs-list > oa-ceph-cluster-loader > span > oa-module-loader > span > span > span > oadatatable > div.dataTables_wrapper > div.dataTables_header.clearfix > div.oadatatableactions > additional-actions > span > button')
+    EXPORT_DETAILS = (By.CSS_SELECTOR, '#more > oa-tab-set > div > div.tab-content.ng-scope > ceph-nfs-detail > div > div.panel-body > dl')
+    CHKBOX_TMP = (By.CSS_SELECTOR, 'body > div.container-fluid > div > div > div > ceph-nfs-list > oa-ceph-cluster-loader > span > oa-module-loader > span > span > span > oadatatable > div.dataTables_wrapper > div.table-responsive.dataTables_content > table > tbody > tr:nth-child(3) > td.ng-scope > input')

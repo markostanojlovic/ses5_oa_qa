@@ -27,6 +27,7 @@
 ### Running individual test 
 
 - To run test by unittest (*obsolete*): `python LoginPageTCs.py TestLoginPage.test_TC001_default_login` 
+- To run test by pytest: `pytest test_NFSTCs.py::TestNFSPage::test_oA016_add_nfs_export -v`
 
 ### Running the suite 
 
