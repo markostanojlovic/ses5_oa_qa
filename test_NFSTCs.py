@@ -27,4 +27,11 @@ class TestNFSPage(BaseTest):
         elem_export_info = self.nfsTab.wait(NFSTabLocators.EXPORT_DETAILS)
         assert export_name in elem_export_info.text
 
+    def test_oA018_delete_nfs_export(self):
+        """
+        AdRemove/Delete NFS export
+        """
+        export_name = '/pseudo_qatest/'
+        self.nfsTab.delete_nfs_export(export_name)
+
 

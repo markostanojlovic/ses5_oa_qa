@@ -146,3 +146,5 @@ class NFSTabLocators:
     MNG_SERVICE_BUTTON = (By.CSS_SELECTOR, 'body > div.container-fluid > div > div > div > ceph-nfs-list > oa-ceph-cluster-loader > span > oa-module-loader > span > span > span > oadatatable > div.dataTables_wrapper > div.dataTables_header.clearfix > div.oadatatableactions > additional-actions > span > button')
     EXPORT_DETAILS = (By.CSS_SELECTOR, '#more > oa-tab-set > div > div.tab-content.ng-scope > ceph-nfs-detail > div > div.panel-body > dl')
     CHKBOX_TMP = (By.CSS_SELECTOR, 'body > div.container-fluid > div > div > div > ceph-nfs-list > oa-ceph-cluster-loader > span > oa-module-loader > span > span > span > oadatatable > div.dataTables_wrapper > div.table-responsive.dataTables_content > table > tbody > tr:nth-child(3) > td.ng-scope > input')
+    DATATABLE = (By.XPATH, '//oadatatable//tbody')
+    PSEUDO = (By.CSS_SELECTOR, '#more > oa-tab-set > div > div.tab-content.ng-scope > ceph-nfs-detail > div > div.panel-body > dl > span > dd')

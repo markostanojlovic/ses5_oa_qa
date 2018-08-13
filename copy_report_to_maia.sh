@@ -1,7 +1,8 @@
 #!/bin/bash
 # Requirement:
 # 	- /home/mstan/.ssh/id_rsa.pub copied to authorized_keys @maia server
-# 	- 
+# Usage:
+# ./copy_report_to_maia.sh M7
 
 [[ -z $1 ]] && MILESTONE=M0 || MILESTONE=$1
 REPORT=oA_pytest_report_${MILESTONE}.html
