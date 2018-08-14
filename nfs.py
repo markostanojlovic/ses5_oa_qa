@@ -47,14 +47,16 @@ class NFSTab(BasePage):
             pseudo = self.wait(NFSTabLocators.PSEUDO)
             if pseudo.text == export_name:
                 found = True
-                # TODO click on Edit DD menu 
-                # TODO Click on Delete button
-                # TODO Enter confirmation text 
-                # TODO Click on Delete button 
+                self.click(NFSTabLocators.EDIT_DDB)
+                self.click(NFSTabLocators.DELETE_DDB_BUTTON)
+                conf_text = self.wait(NFSTabLocators.DELETE_CONFIRMATION_TEXT).text
+                self.send_keys(NFSTabLocators.DELETE_CONFIRMATION_INPUT, conf_text)
+                self.click(NFSTabLocators.DELETE_YES_BUTTON)
+                break 
             time.sleep(2)
             chkbox.click()
         if not found:
-            exit 1
+            exit(1)
 
 
 
