@@ -69,7 +69,7 @@ class PoolsTab(BasePage):
             self.click(PoolsTabLocators.NEW_POOL_ADD_APP_BUTTON)
         # FINISH CREATING NEW POOL BY CLICKING ON SUBMIT BUTTON
         self.click(PoolsTabLocators.NEW_POOL_SUBMIT_BUTTON)
-        self.wait(CommonTabLocators.REFRESH_BUTTON, 45)
+        self.wait(CommonTabLocators.REFRESH_BUTTON, 60)
         return self.new_pool_name
 
     def pool_present(self, pool_name, **other):
