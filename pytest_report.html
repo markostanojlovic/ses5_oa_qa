@@ -398,7 +398,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>pytest_report.html</h1>
-    <p>Report generated on 14-Aug-2018 at 15:16:58 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
+    <p>Report generated on 16-Aug-2018 at 12:37:53 by<a href="https://pypi.python.org/pypi/pytest-html"> pytest-html</a> v1.19.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -414,8 +414,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>3.6.3</td></tr></table>
     <h2>Summary</h2>
-    <p>13 tests ran in 234.21 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">13 passed</span>, <input checked="true" class="filter" data-test-result="skipped" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">4 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>13 tests ran in 270.48 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">12 passed</span>, <input checked="true" class="filter" data-test-result="skipped" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">4 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">1 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -426,6 +426,24 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="xfailed results-table-row">
+        <tr>
+          <td class="col-result">XFailed</td>
+          <td class="col-name">test_BugReproduceTCs.py::TestBugs::test_bug_1100710</td>
+          <td class="col-duration">28.15</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;test_BugReproduceTCs.TestBugs testMethod=test_bug_1100710&gt;<br/><br/>    @pytest.mark.xfail<br/>    def test_bug_1100710(self):<br/>        &quot;&quot;&quot;<br/>            Reproducing bug#1100710<br/>            Bug description: 404 not found when increasing number of rows displayed in a table<br/>            &quot;&quot;&quot;<br/>        self.poolsTab = PoolsTab(self.driver)<br/>        self.poolsTab.click(MainMenuLocators.POOLS)<br/>        self.poolsTab.click(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB)<br/>        self.poolsTab.click(CommonTabLocators.TABLE_LENGTH_2)<br/>        # How many pools are dispalyed and what is the total number?<br/>        print(&quot;\n\nDEBUG INFO: {}&quot;.format(self.poolsTab.wait(CommonTabLocators.TABLE_FOOTER_INFO).text))<br/>        # How many table rows are displayed per page?<br/>        print(&quot;DEBUG INFO: Rows displayed per page: {}&quot;.format(self.poolsTab.wait(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB).text))<br/>        self.poolsTab.click(CommonTabLocators.TABLE_NEXT_PAGE)<br/>        # Click on the increase-table-rows-button<br/>        self.poolsTab.click(CommonTabLocators.TABLE_LENGTH_CHOOSE_DDB)<br/>        # Click on 100<br/>        self.poolsTab.click(CommonTabLocators.TABLE_LENGTH_100)<br/>        # Catch the 404 error<br/>&gt;       err_header = self.poolsTab.wait(CommonTabLocators.TABLE_ERROR_HEADING).text<br/><span class="error">E       AttributeError: &#x27;NoneType&#x27; object has no attribute &#x27;text&#x27;</span><br/><br/>test_BugReproduceTCs.py:36: AttributeError<br/>----------------------------- Captured stdout call -----------------------------<br/>
+
+DEBUG INFO: Showing 1 to 2 of 8 items
+DEBUG INFO: Rows displayed per page: 2
+ERROR: TIMEOUT for locator: (&#x27;xpath&#x27;, &quot;//h3[@class=&#x27;panel-title ng-binding&#x27;]&quot;)
+
+        Reproducing bug#1100710
+        Bug description: 404 not found when increasing number of rows displayed in a table
+        
+</div></td></tr></tbody>
       <tbody class="skipped results-table-row">
         <tr>
           <td class="col-result">Skipped</td>
@@ -465,34 +483,8 @@ function filter_table(elem) {
       <tbody class="passed results-table-row">
         <tr>
           <td class="col-result">Passed</td>
-          <td class="col-name">test_BugReproduceTCs.py::TestBugs::test_bug_1100710</td>
-          <td class="col-duration">15.83</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="log">----------------------------- Captured stdout call -----------------------------<br/>
-
-DEBUG INFO: Showing 1 to 2 of 7 items
-DEBUG INFO: Rows displayed per page: 2
-DEBUG INFO: Error : Ceph pool resources could not be loaded. 
-
----------------------------
-404 - NOT FOUND
-Not found
-
-Aug 14, 2018 3:13:13 PM
-
----------------------------
-
-        Reproducing bug#1100710
-        Bug description: 404 not found when increasing number of rows displayed in a table
-        
-</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
           <td class="col-name">test_NFSTCs.py::TestNFSPage::test_oA016_add_nfs_export</td>
-          <td class="col-duration">29.45</td>
+          <td class="col-duration">30.30</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -507,7 +499,7 @@ Aug 14, 2018 3:13:13 PM
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_NFSTCs.py::TestNFSPage::test_oA018_delete_nfs_export</td>
-          <td class="col-duration">29.86</td>
+          <td class="col-duration">47.46</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -519,7 +511,7 @@ Aug 14, 2018 3:13:13 PM
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_PoolsTCs.py::TestPoolsPage::test_oA001_new_pool_repl_3_pg_16_app_rbd</td>
-          <td class="col-duration">12.61</td>
+          <td class="col-duration">13.17</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -531,7 +523,7 @@ Aug 14, 2018 3:13:13 PM
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_PoolsTCs.py::TestPoolsPage::test_oA002_new_pool_ec_pg_16_app_rbd_cephfs</td>
-          <td class="col-duration">12.92</td>
+          <td class="col-duration">13.27</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -543,7 +535,7 @@ Aug 14, 2018 3:13:13 PM
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_PoolsTCs.py::TestPoolsPage::test_oA003_edit_pool_repl</td>
-          <td class="col-duration">10.76</td>
+          <td class="col-duration">11.30</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -555,7 +547,7 @@ Aug 14, 2018 3:13:13 PM
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_PoolsTCs.py::TestPoolsPage::test_oA004_edit_pool_ec</td>
-          <td class="col-duration">12.70</td>
+          <td class="col-duration">11.87</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -567,7 +559,7 @@ Aug 14, 2018 3:13:13 PM
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_PoolsTCs.py::TestPoolsPage::test_oA999_delete_all_qa_pools</td>
-          <td class="col-duration">6.14</td>
+          <td class="col-duration">6.05</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -581,7 +573,7 @@ ERROR: Not possible to logout due to some error.
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_RBDsTCs.py::TestRBDsPage::test_oA007_new_RBD_1G_from_repl_pg_16</td>
-          <td class="col-duration">23.54</td>
+          <td class="col-duration">27.07</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -593,7 +585,7 @@ ERROR: Not possible to logout due to some error.
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_RBDsTCs.py::TestRBDsPage::test_oA038_RBD_snapshot_create</td>
-          <td class="col-duration">17.36</td>
+          <td class="col-duration">18.58</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -606,7 +598,7 @@ ERROR: Not possible to logout due to some error.
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_RBDsTCs.py::TestRBDsPage::test_oA039_RBD_snapshot_delete</td>
-          <td class="col-duration">18.01</td>
+          <td class="col-duration">19.34</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -618,7 +610,7 @@ ERROR: Not possible to logout due to some error.
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_iSCSITCs.py::TestISCSIPage::test_oA009_add_iscsi_img_no_auth</td>
-          <td class="col-duration">24.08</td>
+          <td class="col-duration">24.07</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
@@ -633,7 +625,7 @@ ERROR: Not possible to logout due to some error.
         <tr>
           <td class="col-result">Passed</td>
           <td class="col-name">test_iSCSITCs.py::TestISCSIPage::test_oA013_remove_iscsi_img</td>
-          <td class="col-duration">12.06</td>
+          <td class="col-duration">11.78</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">

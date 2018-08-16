@@ -35,7 +35,7 @@ class TestNFSPage(BaseTest):
         export_num = len(self.nfsTab.wait(NFSTabLocators.DATATABLE).find_elements_by_tag_name('tr'))
         export_name = '/pseudo_qatest/'
         self.nfsTab.delete_nfs_export(export_name)
-        time.sleep(10) # closing delete confirmation window TODO 
+        time.sleep(30) # closing delete confirmation window TODO 
         # komplikovano, mora da se napravi custom function: 
         # wait for attribute class='modal-open' of driver.find_element_by_tag_name('body')
         self.nfsTab.wait(CommonTabLocators.REFRESH_BUTTON)

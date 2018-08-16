@@ -6,12 +6,14 @@ from locators import CommonTabLocators
 from locators import PoolsTabLocators
 import re, time
 from bs4 import BeautifulSoup
+import pytest
 
 class TestBugs(BaseTest):
     """
     Test Cases for reproducing bugs.
     When the test is passed, means that the bug is still active. 
     """
+    @pytest.mark.xfail
     def test_bug_1100710(self):
         """
         Reproducing bug#1100710
