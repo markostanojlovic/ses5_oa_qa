@@ -19,6 +19,8 @@ class MainMenuLocators:
     ISCSI =  (By.LINK_TEXT, "iSCSI")
     NFS = (By.LINK_TEXT, "NFS")
     OBJECT_GATEWAY = (By.LINK_TEXT, "Object Gateway")
+    OBJECT_GATEWAY_USERS = (By.XPATH, "//div[@id='bs-example-navbar-collapse-1']//span[text()='Users']")
+    OBJECT_GATEWAY_BUCKETS = (By.XPATH, "//div[@id='bs-example-navbar-collapse-1']//span[text()='Buckets']")
     CRUSH_MAP = (By.LINK_TEXT, "CRUSH Map")
     SYSTEM = (By.LINK_TEXT, "System")
     LOGOUT = (By.LINK_TEXT, "Logout")
@@ -153,3 +155,10 @@ class NFSTabLocators:
     DELETE_CONFIRMATION_TEXT = (By.XPATH, "//oa-delete-confirmation-modal//kbd[@class='ng-binding ng-scope']")
     DELETE_CONFIRMATION_INPUT = (By.XPATH, "(//input[@name='enteredName'])")
     DELETE_YES_BUTTON = (By.XPATH, "(//button[@class='btn btn-sm btn-primary tc_submitButton'])")
+
+class RGWTabLocators:
+    SUBMIT_BUTTON = (By.XPATH, "//button[@type='submit']")
+    FORM_USERNAME = (By.ID, "user_id")
+    FORM_FULLNAME = (By.ID, "display_name")
+    FORM_EMAIL = (By.ID, "email")
+
