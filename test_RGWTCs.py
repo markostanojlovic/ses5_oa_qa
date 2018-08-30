@@ -9,6 +9,7 @@ import time
 class TestRGWPage(BaseTest):
     """
     Test Cases for RGW tab
+    Requirement: Object Gateway API is configured in oA
     """
     def setUp(self):
         super().setUp()

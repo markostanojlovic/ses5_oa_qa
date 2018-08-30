@@ -25,6 +25,7 @@ class BasePage(object):
             return WebDriverWait(self.driver, time).until(EC.visibility_of_element_located(locator))
         except:
             print('ERROR: TIMEOUT for locator: {}'.format(locator))
+            exit(1)
 
     def click(self, locator):
         WebDriverWait(self.driver, self.timeout).until(EC.visibility_of_element_located(locator))

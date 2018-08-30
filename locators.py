@@ -47,9 +47,9 @@ class CommonTabLocators:
 class PoolsTabLocators:
     TAB_PAGE_TEXT = (By.XPATH, "//span[text()='Ceph Pools']")
     NEW_POOL_NAME = (By.ID, "poolName")
-    NEW_POOL_TYPE_SELECTOR = (By.XPATH, "(//select[@id='poolTypes'])")
+    NEW_POOL_TYPE_SELECTOR = (By.ID, 'poolTypes')
     NEW_POOL_TYPE_SELECTOR_REPL = (By.CSS_SELECTOR, "option[value=\"string:replicated\"]")
-    NEW_POOL_TYPE_SELECTOR_EC = (By.CSS_SELECTOR, "option[value=\"string:erasure\"]")
+    NEW_POOL_TYPE_SELECTOR_EC = (By.CSS_SELECTOR, "option[label='Erasure code pool']")
     NEW_POOL_PG_NUM = (By.ID, "pgNum")
     NEW_POOL_REPL_SIZE = (By.ID, "size")
     NEW_POOL_APP_RBD = (By.XPATH, "(//option[@label='rbd'])")

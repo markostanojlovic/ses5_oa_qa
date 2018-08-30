@@ -22,7 +22,7 @@ class TestRBDsPage(BaseTest):
         """
         # CREATING NEW POOL 
         self.poolsTab = PoolsTab(self.driver)
-        new_pool_name = 'rbd_test_pool'
+        new_pool_name = 'qa_rbd_test_img_repl'
         self.poolsTab.new_pool(pool_name=new_pool_name, pool_type='replicated', repl=3, pg_num=16, app='rbd')
         assert self.poolsTab.pool_present(new_pool_name)
         # CREATING NEW RBD IMAGE 

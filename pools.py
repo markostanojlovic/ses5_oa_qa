@@ -41,9 +41,9 @@ class PoolsTab(BasePage):
             elem = self.wait(PoolsTabLocators.NEW_POOL_EC_PROFILE_DDB)
             if elem.is_enabled():
                 self.click(PoolsTabLocators.NEW_POOL_EC_PROFILE_DEFAULT)
-            elem = self.wait(PoolsTabLocators.NEW_POOL_EC_CRUSH_RULESET_DDB)
-            if elem.is_enabled():
-                self.click(PoolsTabLocators.NEW_POOL_EC_CRUSH_RULESET_EC) # TODO nece uvek da se pojavi, zavisi da li je kreiran dodatni EC profil
+            # elem = self.wait(PoolsTabLocators.NEW_POOL_EC_CRUSH_RULESET_DDB)
+            # if elem.is_enabled():
+            #     self.click(PoolsTabLocators.NEW_POOL_EC_CRUSH_RULESET_EC) # TODO nece uvek da se pojavi, zavisi da li je kreiran dodatni EC profil
             self.checkbox(PoolsTabLocators.NEW_POOL_EC_OWERWRITE_CB)
         else:
             print("Error: No valid pool_type specified.")
